@@ -15,7 +15,7 @@ public class ConsolConnection {
                 String username = br.readLine();
                 System.out.println("Enter password: ");
                 String password = br.readLine();
-                if (c.forwardConnect(2137, "pascal.fis.agh.edu.pl", 5432, username, password)) {
+                if (c.forwardConnect(2138, "pascal.fis.agh.edu.pl", 5432, username, password)) {
                     System.out.println("Connection established");
                     break;
                 } else {

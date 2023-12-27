@@ -1,5 +1,4 @@
 import Entities.TypPojazdu;
-import Entities.typy;
 import PostgresSQLConnection.ConsolConnection;
 import PostgresSQLConnection.PostgresSQLConnection;
 
@@ -7,6 +6,9 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Arrays;
 
 public class Main extends JFrame{
     private JButton dodajLokomotyweButton;
@@ -26,6 +28,10 @@ public class Main extends JFrame{
     private JButton button1;
     private JTextField textField2;
     private JTextField textField3;
+    private JComboBox comboBox1;
+    private JComboBox comboBox2;
+    private JButton zarejestrujPojazdButton;
+    private String[] fetchTypy;
 
     private PostgresSQLConnection connection;
 
@@ -38,6 +44,9 @@ public class Main extends JFrame{
         this.setSize(800, 600);
         this.pack(); // ustawia rozmiar okna do rozmiaru zawartosci
         this.setVisible(true);
+        fetchTypy = TypPojazdu.getTypEnum(connection);
+        comboBox1.setModel(new DefaultComboBoxModel(fetchTypy));
+        comboBox2.setModel(new DefaultComboBoxModel(fetchTypy));
 
         button1.addActionListener(new ActionListener() {
             @Override
@@ -55,21 +64,25 @@ public class Main extends JFrame{
                 }
                 boolean czyRestauracyjny = checkBox1.isSelected();
                 boolean czyToaleta = checkBox2.isSelected();
+                String typ = fetchTypy[comboBox1.getSelectedIndex()];
 
-                TypPojazdu objToSend = new TypPojazdu(nazwaWag, typy.wagon, masaWag, iloscMiejsc, czyRestauracyjny, czyToaleta);
+                TypPojazdu objToSend = new TypPojazdu(nazwaWag, typ, masaWag, iloscMiejsc, czyRestauracyjny, czyToaleta);
 
                 try {
-                    connection.executeCommand(objToSend.getInsertQuery());
+                    connection.executeCommand(objToSend.getInsertQuery(connection.getConnection()));
                 } catch (Exception exception) {
                     JOptionPane.showMessageDialog(null, exception.getMessage());
                 }
 
             }
         });
+
     }
 
     public static void main(String[] args) throws IOException {
         PostgresSQLConnection connection = new PostgresSQLConnection("u1kolanko", "1kolanko");
+        //connection.forwardConnect(2138, "pascal.fis.agh.edu.pl", 5432, "1kolanko", "stalinkoszalin");
+        connection.connect();
         new Main(connection);
         new ConsolConnection(connection);
     }

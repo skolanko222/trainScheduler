@@ -15,6 +15,10 @@ public class PostgresSQLConnection {
 
     final private Properties props;
 
+    public Connection getConnection() {
+        return connection;
+    }
+
     public PostgresSQLConnection(String username, String password) {
 
         props = new Properties();
@@ -29,6 +33,17 @@ public class PostgresSQLConnection {
             forwardPort(localPort, remoteHost, remotePort, username, password);
             String fullURL = urlParam + localHost + ":" + localPort + "/";
             this.connection = DriverManager.getConnection(fullURL, props);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean connect() {
+        try {
+            String fullURL = "jdbc:postgresql://dumbo.db.elephantsql.com:5432/tabidjtt";
+            this.connection = DriverManager.getConnection(fullURL,"tabidjtt","QVuaGuSqlR9tWM30ri-mS-2OKHxBmzHD");
             return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
