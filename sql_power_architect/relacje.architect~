@@ -71,7 +71,7 @@
     <column id="COL17" populated="true" UUID="ce5435b7-5f3f-40b6-bb07-44b8428cf38b" autoIncrement="false" autoIncrementSequenceName="lokomotywa_id_lokomotywa_seq" defaultValue="" name="id_lokomotywa" nullable="0" physicalName="id_lokomotywa" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL18" populated="true" UUID="6bfbf607-e365-4135-aa98-ae5a9461209c" autoIncrement="false" autoIncrementSequenceName="pojazd_szynowy_id_ps_seq" defaultValue="" name="id_sklad" nullable="1" physicalName="id_sklad" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL18" populated="true" UUID="6bfbf607-e365-4135-aa98-ae5a9461209c" autoIncrement="false" autoIncrementSequenceName="pojazd_szynowy_id_ps_seq_1" defaultValue="" name="id_sklad" nullable="1" physicalName="id_sklad" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL19" populated="true" UUID="84880fc9-530c-4e08-837d-970485fa7d64" autoIncrement="false" autoIncrementSequenceName="lokomotywa_nazwa_seq" defaultValue="" name="nazwa" nullable="0" physicalName="nazwa" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -83,7 +83,7 @@
     <column id="COL21" populated="true" UUID="f0f9ef47-f90f-4dc9-8dea-63788c7c107e" autoIncrement="false" autoIncrementSequenceName="lokomotywa_max_pre_seq" defaultValue="" name="max_pre" nullable="0" physicalName="max_pre" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL22" populated="true" UUID="fd59f319-3ede-4bce-b3ec-c82dcdfe198e" autoIncrement="false" autoIncrementSequenceName="lokomotywa_max_uciag_seq" defaultValue="" name="New Column" nullable="0" physicalName="max_uciag" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL22" populated="true" UUID="fd59f319-3ede-4bce-b3ec-c82dcdfe198e" autoIncrement="false" autoIncrementSequenceName="lokomotywa_max_uciag_seq" defaultValue="" name="max_uciag" nullable="0" physicalName="max_uciag" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     </folder>
@@ -140,10 +140,10 @@
   <table id="TAB35" populated="true" UUID="fdf43aec-ed48-444e-9c56-ac01c39d1ecf" name="sklad" objectType="TABLE" physicalName="sklad" >
    <remarks></remarks>
    <folder id="FOLTAB351" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL36" populated="true" UUID="00a2636b-4d66-4d91-8d8d-e8b5e60ba0a1" autoIncrement="false" autoIncrementSequenceName="sklad_id_skla_seq" defaultValue="" name="id_sklad" nullable="0" physicalName="id_sklad" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL36" populated="true" UUID="00a2636b-4d66-4d91-8d8d-e8b5e60ba0a1" autoIncrement="false" autoIncrementSequenceName="sklad_id_skla_seq_1" defaultValue="" name="id_sklad" nullable="0" physicalName="id_sklad" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL37" populated="true" UUID="35d58749-6d8b-4017-8486-f810ce829971" autoIncrement="false" autoIncrementSequenceName="pojazd_id_pojazd_seq" defaultValue="" name="id_pojazd" nullable="1" physicalName="id_pojazd" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL37" populated="true" UUID="35d58749-6d8b-4017-8486-f810ce829971" autoIncrement="false" autoIncrementSequenceName="pojazd_id_pojazd_seq_1" defaultValue="" name="id_pojazd" nullable="1" physicalName="id_pojazd" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     </folder>
@@ -163,10 +163,10 @@
     <column id="COL41" populated="true" UUID="e383895c-9243-4907-8a7c-da05a192bc6a" autoIncrement="false" autoIncrementSequenceName="wagon_zt_id_wagon_zt_seq" defaultValue="" name="id_wagon_zt" nullable="0" physicalName="id_wagon_zt" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL42" populated="true" UUID="f0c7986c-6e50-4649-8b67-6157a869b0d0" autoIncrement="false" autoIncrementSequenceName="zespol_trakcyjny_id_zt_seq" defaultValue="" name="id_zt" nullable="1" physicalName="id_zt" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL42" populated="true" UUID="f0c7986c-6e50-4649-8b67-6157a869b0d0" autoIncrement="false" autoIncrementSequenceName="zespol_trakcyjny_id_zt_seq_1" defaultValue="" name="id_zt" nullable="1" physicalName="id_zt" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL43" populated="true" UUID="7d7b1d18-e221-437b-ae98-51e018f47f5b" autoIncrement="false" autoIncrementSequenceName="typ_wagonu_id_typ_wagonu_seq" defaultValue="" name="id_typ_po" nullable="0" physicalName="id_typ_po" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL43" populated="true" UUID="7d7b1d18-e221-437b-ae98-51e018f47f5b" autoIncrement="false" autoIncrementSequenceName="typ_wagonu_id_typ_wagonu_seq_1" defaultValue="" name="id_typ_po" nullable="0" physicalName="id_typ_po" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     </folder>
@@ -186,10 +186,10 @@
     <column id="COL47" populated="true" UUID="f568de1e-d8c6-4a2a-be17-6620802e4b0d" autoIncrement="false" autoIncrementSequenceName="autobus_zapasowy_id_autobus_seq" defaultValue="" name="id_autobus" nullable="0" physicalName="id_autobus" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL48" populated="true" UUID="1cbb70c2-2231-48cf-bdd1-5c3d58f3df44" autoIncrement="false" autoIncrementSequenceName="pojazd_id_pojazd_seq" defaultValue="" name="id_pojazd" nullable="1" physicalName="id_pojazd" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL48" populated="true" UUID="1cbb70c2-2231-48cf-bdd1-5c3d58f3df44" autoIncrement="false" autoIncrementSequenceName="pojazd_id_pojazd_seq_2" defaultValue="" name="id_pojazd" nullable="1" physicalName="id_pojazd" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL49" populated="true" UUID="278e5e58-5a73-404e-834f-344bb1dcbc72" autoIncrement="false" autoIncrementSequenceName="typ_pojazdu_osobowego_id_typ_wagonu_seq" defaultValue="" name="id_typ_po" nullable="0" physicalName="id_typ_po" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL49" populated="true" UUID="278e5e58-5a73-404e-834f-344bb1dcbc72" autoIncrement="false" autoIncrementSequenceName="typ_pojazdu_osobowego_id_typ_wagonu_seq_1" defaultValue="" name="id_typ_po" nullable="0" physicalName="id_typ_po" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     </folder>
@@ -229,7 +229,7 @@
     <column id="COL58" populated="true" UUID="11e98c63-0f80-41db-9ada-5cadf1431d87" autoIncrement="false" autoIncrementSequenceName="przystanek_id_przystanek_seq" defaultValue="" name="id_przystanek" nullable="0" physicalName="id_przystanek" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL59" populated="true" UUID="816238cf-4b29-4451-a440-5dbf967a7eaa" autoIncrement="false" autoIncrementSequenceName="stacja_id_stacja_seq" defaultValue="" name="id_stacja" nullable="0" physicalName="id_stacja" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL59" populated="true" UUID="816238cf-4b29-4451-a440-5dbf967a7eaa" autoIncrement="false" autoIncrementSequenceName="stacja_id_stacja_seq_1" defaultValue="" name="id_stacja" nullable="0" physicalName="id_stacja" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL60" populated="true" UUID="5b760e93-fcca-4b62-a21c-262955306606" autoIncrement="false" autoIncrementSequenceName="przystanek_data_przyjazdu_seq" defaultValue="" name="data_przyjazdu" nullable="0" physicalName="data_przyjazdu" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="91" userDefinedTypeUUID="ee349be3-6af2-46e1-b305-975f5354b009" >
@@ -284,13 +284,13 @@
     <column id="COL73" populated="true" UUID="17edabdc-1b2a-44c1-a588-c321706cb755" autoIncrement="false" autoIncrementSequenceName="kurs_lini_id_kurs_seq" defaultValue="" name="id_kurs" nullable="0" physicalName="id_kurs" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL74" populated="true" UUID="f7c49575-1826-46d4-9b22-3daacb6e7c28" autoIncrement="false" autoIncrementSequenceName="pojazd_id_pojazd_seq" defaultValue="" name="id_pojazd" nullable="0" physicalName="id_pojazd" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL74" populated="true" UUID="f7c49575-1826-46d4-9b22-3daacb6e7c28" autoIncrement="false" autoIncrementSequenceName="pojazd_id_pojazd_seq_3" defaultValue="" name="id_pojazd" nullable="0" physicalName="id_pojazd" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL75" populated="true" UUID="a5abf03d-49f4-4906-98d6-cc82a3e558b9" autoIncrement="false" autoIncrementSequenceName="linia_id_linia_seq" defaultValue="" name="id_linia" nullable="0" physicalName="id_linia" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL75" populated="true" UUID="a5abf03d-49f4-4906-98d6-cc82a3e558b9" autoIncrement="false" autoIncrementSequenceName="linia_id_linia_seq_1" defaultValue="" name="id_linia" nullable="0" physicalName="id_linia" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL76" populated="true" UUID="342afbd5-9e23-48bc-86fc-3e0d0b6f96a8" autoIncrement="false" autoIncrementSequenceName="przystanek_id_przystanek_seq" defaultValue="" name="id_przystanek" nullable="0" physicalName="id_przystanek" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL76" populated="true" UUID="342afbd5-9e23-48bc-86fc-3e0d0b6f96a8" autoIncrement="false" autoIncrementSequenceName="przystanek_id_przystanek_seq_1" defaultValue="" name="id_przystanek" nullable="0" physicalName="id_przystanek" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     </folder>
@@ -314,14 +314,14 @@
    <relationship id="REL83" populated="true" UUID="a33353be-b5f5-4ece-b169-e983e590f3be" deferrability="7" deleteRule="3" fk-table-ref="TAB46" fkCardinality="7" identifying="true" name="typ_pojazdu_osobowego_autobus_zapasowy_fk" physicalName="typ_pojazdu_osobowego_autobus_zapasowy_fk" pk-table-ref="TAB7" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP84" populated="true" UUID="4d6ddd0f-798a-4aa6-a568-d6bb47535058" fk-column-ref="COL49" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL8" />
    </relationship>
-   <relationship id="REL85" populated="true" UUID="ff30738c-d658-4870-a201-c580519163a2" deferrability="7" deleteRule="3" fk-table-ref="TAB46" fkCardinality="7" identifying="true" name="pojazd_autobus_zapasowy_fk" physicalName="pojazd_autobus_zapasowy_fk" pk-table-ref="TAB25" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP86" populated="true" UUID="abb0f1bc-e7d3-4c34-8182-dc36285f2411" fk-column-ref="COL48" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL26" />
+   <relationship id="REL85" populated="true" UUID="679e2c2d-ef02-4c51-ac04-3e13dd68fdec" deferrability="7" deleteRule="3" fk-table-ref="TAB72" fkCardinality="3" identifying="true" name="pojazd_kurs_lini_fk" physicalName="pojazd_kurs_lini_fk" pk-table-ref="TAB25" pkCardinality="3" updateRule="3" >
+    <column-mapping id="CMP86" populated="true" UUID="42e7873c-0501-4f0f-948c-7b266840c95c" fk-column-ref="COL74" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL26" />
    </relationship>
-   <relationship id="REL87" populated="true" UUID="ca7908a2-bbcf-49f6-be9f-1db634baf036" deferrability="7" deleteRule="3" fk-table-ref="TAB35" fkCardinality="7" identifying="true" name="pojazd_sklad_fk" physicalName="pojazd_sklad_fk" pk-table-ref="TAB25" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP88" populated="true" UUID="ba13a8b8-147f-4ae0-9c01-1e90fea73ac1" fk-column-ref="COL37" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL26" />
+   <relationship id="REL87" populated="true" UUID="ff30738c-d658-4870-a201-c580519163a2" deferrability="7" deleteRule="3" fk-table-ref="TAB46" fkCardinality="3" identifying="true" name="pojazd_autobus_zapasowy_fk" physicalName="pojazd_autobus_zapasowy_fk" pk-table-ref="TAB25" pkCardinality="3" updateRule="3" >
+    <column-mapping id="CMP88" populated="true" UUID="c761fe8d-2d18-44d9-b3f1-e40be4de7de9" fk-column-ref="COL48" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL26" />
    </relationship>
-   <relationship id="REL89" populated="true" UUID="679e2c2d-ef02-4c51-ac04-3e13dd68fdec" deferrability="7" deleteRule="3" fk-table-ref="TAB72" fkCardinality="7" identifying="true" name="pojazd_kurs_lini_fk" physicalName="pojazd_kurs_lini_fk" pk-table-ref="TAB25" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP90" populated="true" UUID="630f16c4-2110-4fdd-a4ca-f89a43895a34" fk-column-ref="COL74" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL26" />
+   <relationship id="REL89" populated="true" UUID="ca7908a2-bbcf-49f6-be9f-1db634baf036" deferrability="7" deleteRule="3" fk-table-ref="TAB35" fkCardinality="3" identifying="true" name="pojazd_sklad_fk" physicalName="pojazd_sklad_fk" pk-table-ref="TAB25" pkCardinality="3" updateRule="3" >
+    <column-mapping id="CMP90" populated="true" UUID="9069b6e5-76aa-423e-9f0a-fea6da73c994" fk-column-ref="COL37" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL26" />
    </relationship>
    <relationship id="REL91" populated="true" UUID="84070d3c-b682-4a71-85a7-7e559a18f634" deferrability="7" deleteRule="3" fk-table-ref="TAB40" fkCardinality="7" identifying="true" name="zespol_trakcyjny_wagon_zt_fk" physicalName="zespol_trakcyjny_wagon_zt_fk" pk-table-ref="TAB29" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP92" populated="true" UUID="57c9b119-0b7a-4fdb-94a5-a61978d8ebe6" fk-column-ref="COL42" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL30" />
@@ -346,17 +346,17 @@
    </relationship>
   </relationships>
  </target-database>
- <ddl-generator type="ca.sqlpower.architect.ddl.GenericDDLGenerator" allow-connection="true"> </ddl-generator>
+ <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="false" target-schema="train"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
  <play-pen zoom="1.0" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
   <table-pane table-ref="TAB1" x="316" y="665" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB7" x="230" y="813" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB16" x="232" y="505" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB25" x="967" y="592" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB29" x="54" y="389" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB16" x="155" y="498" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB25" x="872" y="614" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB29" x="33" y="389" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB35" x="633" y="406" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB40" x="47" y="666" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB40" x="26" y="655" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB46" x="647" y="813" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB52" x="1420" y="161" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB57" x="1123" y="145" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
@@ -365,16 +365,16 @@
   <table-link relationship-ref="REL79" pkConnection="0.7107843137254902" fkConnection="0.3089005235602094" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="72"/>
   <table-link relationship-ref="REL93" pkConnection="0.9122807017543859" fkConnection="0.6197183098591549" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="18"/>
   <table-link relationship-ref="REL95" pkConnection="0.7017543859649122" fkConnection="0.4336283185840708" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="18"/>
-  <table-link relationship-ref="REL81" pkConnection="0.049019607843137254" fkConnection="0.946078431372549" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="72"/>
-  <table-link relationship-ref="REL91" pkConnection="0.5" fkConnection="0.4411764705882353" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="132"/>
+  <table-link relationship-ref="REL81" pkConnection="0.1592920353982301" fkConnection="0.35294117647058826" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="66"/>
+  <table-link relationship-ref="REL91" pkConnection="0.4036144578313253" fkConnection="0.3627450980392157" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="132"/>
   <table-link relationship-ref="REL97" pkConnection="0.47368421052631576" fkConnection="0.6197183098591549" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="18"/>
   <table-link relationship-ref="REL83" pkConnection="0.3274336283185841" fkConnection="0.5211267605633803" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="33"/>
-  <table-link relationship-ref="REL85" pkConnection="0.2857142857142857" fkConnection="0.673469387755102" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="132"/>
-  <table-link relationship-ref="REL87" pkConnection="0.2804232804232804" fkConnection="0.7743589743589744" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="72"/>
+  <table-link relationship-ref="REL87" pkConnection="0.2857142857142857" fkConnection="0.673469387755102" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="132"/>
+  <table-link relationship-ref="REL89" pkConnection="0.2804232804232804" fkConnection="0.7743589743589744" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="72"/>
   <table-link relationship-ref="REL99" pkConnection="0.5789473684210527" fkConnection="0.38596491228070173" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="18"/>
   <table-link relationship-ref="REL103" pkConnection="0.49714285714285716" fkConnection="0.4972375690607735" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="132"/>
-  <table-link relationship-ref="REL101" pkConnection="0.7952755905511811" fkConnection="0.11764705882352941" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="18"/>
-  <table-link relationship-ref="REL89" pkConnection="0.4656084656084656" fkConnection="0.5571428571428572" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="72"/>
+  <table-link relationship-ref="REL101" pkConnection="0.2125984251968504" fkConnection="0.8941176470588236" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="18"/>
+  <table-link relationship-ref="REL85" pkConnection="0.4656084656084656" fkConnection="0.5571428571428572" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="72"/>
  </play-pen>
  <critic-manager>
   <critic-grouping platformType="Generic" enabled="true">

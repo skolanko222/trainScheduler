@@ -4,7 +4,7 @@ import java.sql.Connection;
 
 abstract public class Entity {
     protected Integer id;
-    protected String schema = "train.";
+    static protected String schema = "train.";
 
     public Entity(Integer id) {
         this.id = id;

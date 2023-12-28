@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class TypPojazdu extends Entity{
 
@@ -78,7 +79,7 @@ public class TypPojazdu extends Entity{
         try{
             PreparedStatement pst = c.prepareStatement("UPDATE " + schema + "typ_pojazdu_osobowego SET " +
                     "nazwa_wagonu = ?, czy_restauracyjny = ?, czy_wc = ?, waga = ?, ilosc_miejsc = ?" +
-                    "WHERE id_typu_pojazdu = ?");
+                    "WHERE id_typ_po = ?");
             pst.setString(1, nazwa);
             pst.setBoolean(2, czyRestauracyjny);
             pst.setBoolean(3, czyWC);
@@ -96,7 +97,7 @@ public class TypPojazdu extends Entity{
     @Override
     public String getDeleteQuery(Connection c) {
         try{
-            PreparedStatement pst = c.prepareStatement("DELETE FROM " + schema + "typ_pojazdu_osobowego WHERE id_typu_pojazdu = ?");
+            PreparedStatement pst = c.prepareStatement("DELETE FROM " + schema + "typ_pojazdu_osobowego WHERE id_typ_po = ?");
             pst.setInt(1, id);
             return pst.toString();
         }
@@ -119,6 +120,40 @@ public class TypPojazdu extends Entity{
             throwables.printStackTrace();
         }
         return fetchTypy;
+    }
+
+    static public String[] getNazwyTypow(String wybranyTypEgzemplarza, PostgresSQLConnection c) {
+        String [] fetchNazwy = null;
+        String query = "SELECT nazwa_wagonu FROM train.typ_pojazdu_osobowego WHERE typpojazdu = '" + wybranyTypEgzemplarza + "';";
+        try {
+            ResultSet temp = c.executeCommand(query);
+            fetchNazwy = new String[0];
+            for(int i = 0; temp.next(); i++) {
+                fetchNazwy = Arrays.copyOf(fetchNazwy, fetchNazwy.length + 1);
+                fetchNazwy[i] = temp.getString(1);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return fetchNazwy;
+    }
+
+    static public int getIloscEgzemplarzy(String wybranyTypEgzemplarza, String nazwa, PostgresSQLConnection c) {
+        String query;
+        if(Objects.equals(wybranyTypEgzemplarza, "EZT"))
+            query = "SELECT COUNT(*) FROM train.wagon_zt WHERE id_typ_po = (SELECT id_typ_po FROM train.typ_pojazdu_osobowego WHERE nazwa_wagonu = '" + nazwa + "');";
+        else if(Objects.equals(wybranyTypEgzemplarza, "wagon"))
+            query = "SELECT COUNT(*) FROM train.wagon WHERE id_typ_po = (SELECT id_typ_po FROM train.typ_pojazdu_osobowego WHERE nazwa_wagonu = '" + nazwa + "');";
+        else
+            query = "SELECT COUNT(*) FROM train.autobus_zapasowy WHERE id_typ_po = (SELECT id_typ_po FROM train.typ_pojazdu_osobowego WHERE nazwa_wagonu = '" + nazwa + "');";
+        try {
+            ResultSet temp = c.executeCommand(query);
+            temp.next();
+            return temp.getInt(1);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return 0;
     }
 
 }
