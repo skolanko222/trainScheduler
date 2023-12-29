@@ -1,9 +1,13 @@
 package Entities;
 
+import PostgresSQLConnection.PostgresSQLConnection;
+
 import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 public class Stacja extends Entity{
     private String nazwa;
@@ -17,6 +21,24 @@ public class Stacja extends Entity{
         this.miejscowosc = miejscowosc;
         this.ulica = ulica;
         this.numer = numer;
+    }
+
+    public static String[] getNazwyStacji(PostgresSQLConnection connection) {
+        try {
+            String[] nazwy = new String[0];
+            String query = "SELECT nazwa FROM " + schema + "stacja";
+            ResultSet rs = connection.executeCommand(query);
+            while(rs.next()) {
+                nazwy = Arrays.copyOf(nazwy, nazwy.length + 1);
+                nazwy[nazwy.length - 1] = rs.getString(1);
+            }
+            return nazwy;
+        }
+        catch (SQLException e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        return null;
+
     }
 
     @Override

@@ -5,9 +5,14 @@ import PostgresSQLConnection.PostgresSQLConnection;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class Main extends JFrame{
     private JButton dodajLokomotyweButton;
@@ -44,9 +49,18 @@ public class Main extends JFrame{
     private JTextField fieldAdresStacji;
     private JTextField fieldNumerAdresStacji;
     private JButton buttonSaveStacja;
+    private JTextField fieldNazwaLini;
+    private JButton buttonSaveLinia;
+    private JFormattedTextField fieldDataPrzyjazdu;
+    private JButton dodajPrzystanekButton;
+    private JComboBox comboStacje;
+    private JFormattedTextField fieldDataOdjazdu;
+    private JFormattedTextField fieldGodzinaPrzyjazdu;
+    private JFormattedTextField fieldGodzinaOdjazdu;
     private String[] pobraneTypyEnum;
     private String[] nazwyEgzemplarzyWagon;
     private String[] nazwyEgzemplarzyLokomotyw;
+    private String[] nazwyStacji;
     private String wybranyTypEgzemplarza;
     private PostgresSQLConnection connection;
 
@@ -54,6 +68,9 @@ public class Main extends JFrame{
         pobraneTypyEnum = TypPojazdu.getTypEnum(connection);
         comboBox1.setModel(new DefaultComboBoxModel(pobraneTypyEnum));
         comboBox3.setModel(new DefaultComboBoxModel(pobraneTypyEnum)); // typ wagonu dodawanego jako egzemplarz
+
+        nazwyStacji = Stacja.getNazwyStacji(connection);
+        comboStacje.setModel(new DefaultComboBoxModel(nazwyStacji));
 
         nazwyEgzemplarzyWagon = TypPojazdu.getNazwyTypow(comboBox3.getSelectedItem().toString(), connection);
         nazwyEgzemplarzyLokomotyw = TypLokomotywy.getNazwyTypow(connection);
@@ -63,7 +80,6 @@ public class Main extends JFrame{
         updateLabelWagon();
         updateLabelLokomotywa();
     }
-
     private void updateLabelLokomotywa() {
         try{
             String nazwa = comboNazwyLok.getSelectedItem().toString();
@@ -85,7 +101,16 @@ public class Main extends JFrame{
             stanEgzemplarzy.setText("Aktualna liczba dostepnych egzemplarzy: 0");
         }
     }
-
+    private String setDateField(JFormattedTextField field, DateFormat df) {
+        try{
+            field.setText(df.format(df.parse(field.getText())));
+            return field.getText();
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(null, "Niepoprawny format daty przyjazdu!");
+            field.setText(df.format(java.util.Calendar.getInstance().getTime()));
+            return field.getText();
+        }
+    }
     public Main(PostgresSQLConnection connection) {
         super("MainUI");
         this.connection = connection;
@@ -96,6 +121,13 @@ public class Main extends JFrame{
         this.pack(); // ustawia rozmiar okna do rozmiaru zawartosci
         this.setVisible(true);
         reloadComboBoxes();
+
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat tf = new SimpleDateFormat("HH:mm");
+        fieldDataPrzyjazdu.setText(df.format(java.util.Calendar.getInstance().getTime()));
+        fieldDataOdjazdu.setText(df.format(java.util.Calendar.getInstance().getTime()));
+        fieldGodzinaPrzyjazdu.setText(tf.format(java.util.Calendar.getInstance().getTime()));
+        fieldGodzinaOdjazdu.setText(tf.format(java.util.Calendar.getInstance().getTime()));
 
         /**
          * Dodanie typu pojazdu wagonu
@@ -261,6 +293,36 @@ public class Main extends JFrame{
                 } catch (Exception exception) {
                     JOptionPane.showMessageDialog(null, exception.getMessage());
                 }
+            }
+        });
+        buttonSaveLinia.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String nazwa = fieldNazwaLini.getText();
+                Linia objToSend = new Linia(null, nazwa);
+                try {
+                    connection.executeCommand(objToSend.getInsertQuery(connection.getConnection()));
+                } catch (Exception exception) {
+                    JOptionPane.showMessageDialog(null, exception.getMessage());
+                }
+            }
+        });
+        fieldDataPrzyjazdu.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                setDateField(fieldDataPrzyjazdu, df);
+            }
+        });
+        fieldDataOdjazdu.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                setDateField(fieldDataOdjazdu, df);
+            }
+        });
+        fieldGodzinaPrzyjazdu.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                setDateField(fieldGodzinaPrzyjazdu, tf);
             }
         });
     }
