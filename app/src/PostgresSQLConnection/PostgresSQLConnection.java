@@ -3,6 +3,7 @@ package PostgresSQLConnection;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
+import org.postgresql.util.PSQLException;
 
 import java.sql.*;
 import java.util.Arrays;
@@ -59,8 +60,13 @@ public class PostgresSQLConnection {
     }
 
     public ResultSet executeCommand(String command) throws SQLException{
-            Statement statement = connection.createStatement();
-            return statement.executeQuery(command);
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+        } catch (PSQLException e) {
+
+        }
+        return statement.executeQuery(command);
     }
 
     private void forwardPort(int localPort, String remoteHost, int remotePort, String username, String password) {

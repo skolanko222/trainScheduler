@@ -1,6 +1,7 @@
 import Entities.*;
 import PostgresSQLConnection.ConsolConnection;
 import PostgresSQLConnection.PostgresSQLConnection;
+import org.postgresql.util.PSQLException;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -10,9 +11,13 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Calendar;
 
 public class Main extends JFrame{
     private JButton dodajLokomotyweButton;
@@ -57,12 +62,20 @@ public class Main extends JFrame{
     private JFormattedTextField fieldDataOdjazdu;
     private JFormattedTextField fieldGodzinaPrzyjazdu;
     private JFormattedTextField fieldGodzinaOdjazdu;
+    private JButton zapiszKursButton;
+    private JTable tableLinia;
+    private JButton buttonPushUp;
+    private JButton buttonPushDown;
+    private JComboBox comboLiniaForCreatedPrzystanek;
     private String[] pobraneTypyEnum;
     private String[] nazwyEgzemplarzyWagon;
     private String[] nazwyEgzemplarzyLokomotyw;
     private String[] nazwyStacji;
+    private String[] nazwyLinii;
     private String wybranyTypEgzemplarza;
     private PostgresSQLConnection connection;
+    private int counterPrzystanek = 0;
+    private PrzystanekTableModel przystanekTableModel;
 
     private void reloadComboBoxes() {
         pobraneTypyEnum = TypPojazdu.getTypEnum(connection);
@@ -76,6 +89,9 @@ public class Main extends JFrame{
         nazwyEgzemplarzyLokomotyw = TypLokomotywy.getNazwyTypow(connection);
         comboBox2.setModel(new DefaultComboBoxModel(nazwyEgzemplarzyWagon));
         comboNazwyLok.setModel(new DefaultComboBoxModel(nazwyEgzemplarzyLokomotyw));
+
+        nazwyLinii = Linia.getNazwyLinii(connection);
+        comboLiniaForCreatedPrzystanek.setModel(new DefaultComboBoxModel(nazwyLinii));
 
         updateLabelWagon();
         updateLabelLokomotywa();
@@ -107,7 +123,7 @@ public class Main extends JFrame{
             return field.getText();
         } catch (ParseException e) {
             JOptionPane.showMessageDialog(null, "Niepoprawny format daty przyjazdu!");
-            field.setText(df.format(java.util.Calendar.getInstance().getTime()));
+            field.setText(df.format(Calendar.getInstance().getTime()));
             return field.getText();
         }
     }
@@ -117,17 +133,20 @@ public class Main extends JFrame{
         this.setContentPane(mainPanel);
         this.setTitle("Bazy danych");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(800, 600);
+        this.setSize(1000, 600);
         this.pack(); // ustawia rozmiar okna do rozmiaru zawartosci
         this.setVisible(true);
+        przystanekTableModel = new PrzystanekTableModel(connection);
         reloadComboBoxes();
 
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         DateFormat tf = new SimpleDateFormat("HH:mm");
-        fieldDataPrzyjazdu.setText(df.format(java.util.Calendar.getInstance().getTime()));
-        fieldDataOdjazdu.setText(df.format(java.util.Calendar.getInstance().getTime()));
-        fieldGodzinaPrzyjazdu.setText(tf.format(java.util.Calendar.getInstance().getTime()));
-        fieldGodzinaOdjazdu.setText(tf.format(java.util.Calendar.getInstance().getTime()));
+        fieldDataPrzyjazdu.setText(df.format(Calendar.getInstance().getTime()));
+        fieldDataOdjazdu.setText(df.format(Calendar.getInstance().getTime()));
+        fieldGodzinaPrzyjazdu.setText(tf.format(Calendar.getInstance().getTime()));
+        fieldGodzinaOdjazdu.setText(tf.format(Calendar.getInstance().getTime()));
+        tableLinia.setModel(przystanekTableModel);
+
 
         /**
          * Dodanie typu pojazdu wagonu
@@ -325,6 +344,93 @@ public class Main extends JFrame{
                 setDateField(fieldGodzinaPrzyjazdu, tf);
             }
         });
+        dodajPrzystanekButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String nazwaStacji = comboStacje.getSelectedItem().toString();
+                String queryNazwa = "SELECT id_stacja FROM train.stacja WHERE nazwa = '" + nazwaStacji + "';";
+                int id = 0;
+                try {
+                    ResultSet temp = connection.executeCommand(queryNazwa);
+                    temp.next();
+                    id = temp.getInt(1);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                    return;
+                }
+                LocalDate dataPrzyjazdu = null;
+                Time godzinaPrzyjazdu = null;
+                LocalDate dataOdjazdu = null;
+                Time godzinaOdjazdu = null;
+                try{
+                     dataPrzyjazdu = df.parse(fieldDataPrzyjazdu.getText()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                     dataOdjazdu = df.parse(fieldDataOdjazdu.getText()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                     godzinaPrzyjazdu = Time.valueOf(tf.parse(fieldGodzinaPrzyjazdu.getText()).toInstant().atZone(ZoneId.systemDefault()).toLocalTime());
+                     godzinaOdjazdu = Time.valueOf(tf.parse(fieldGodzinaOdjazdu.getText()).toInstant().atZone(ZoneId.systemDefault()).toLocalTime());
+                } catch (Exception exception) {
+                    JOptionPane.showMessageDialog(null, exception.getMessage());
+                    return;
+                }
+                System.out.println(dataPrzyjazdu + " " + dataOdjazdu + " " + godzinaPrzyjazdu + " " + godzinaOdjazdu);
+
+                Przystanek objToSend = new Przystanek(null, dataPrzyjazdu, dataOdjazdu, godzinaPrzyjazdu, godzinaOdjazdu, id, counterPrzystanek, null);
+                counterPrzystanek++;
+                przystanekTableModel.addPrzystanek(objToSend);
+
+            }
+        });
+        buttonPushDown.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = tableLinia.getSelectedRow();
+                przystanekTableModel.moveDown(selectedRow);
+                tableLinia.setRowSelectionInterval(selectedRow+1,selectedRow+1);
+            }
+        });
+        buttonPushUp.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = tableLinia.getSelectedRow();
+                przystanekTableModel.moveUp(selectedRow);
+                tableLinia.setRowSelectionInterval(selectedRow-1,selectedRow-1);
+            }
+        });
+        zapiszKursButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String nazwaLini = comboLiniaForCreatedPrzystanek.getSelectedItem().toString();
+                String queryNazwa = "SELECT id_linia FROM train.linia WHERE nazwa = '" + nazwaLini + "';";
+                int id = 0;
+                try {
+                    ResultSet temp = connection.executeCommand(queryNazwa);
+                    temp.next();
+                    id = temp.getInt(1);
+                    KursLini objToSend = new KursLini(null, null, id);
+                    connection.executeCommand(objToSend.getInsertQuery(connection.getConnection()));
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+
+                // PObIERZ ID KURSU insertowanego wyżej
+
+                for(int i = 0; i < przystanekTableModel.getRowCount(); i++) {
+                    try{
+                    Przystanek przystanek = przystanekTableModel.getPrzystanki()[i];
+                    przystanek.setId_kursu(id);
+                    przystanek.setNr_kolejnosc(i);
+                    connection.executeCommand(przystanek.getInsertQuery(connection.getConnection()));
+                    } catch (PSQLException exception) {
+                        System.out.println(exception.getMessage());
+                    }
+                    catch (Exception exception) {
+                        JOptionPane.showMessageDialog(null, exception.getMessage());
+                    }
+                }
+
+
+            }
+        });
+
     }
 
     public static void main(String[] args) throws IOException {
