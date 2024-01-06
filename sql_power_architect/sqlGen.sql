@@ -405,3 +405,40 @@ REFERENCES train.typ_pojazdu_osobowego (id_typ_po)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
+
+--stwórz funkcję której argumentem będzie id-primary key a będzie zwracac masę pojazdu
+CREATE OR REPLACE FUNCTION train.masa_pojazdu(id_pojazd INTEGER)
+RETURNS DOUBLE PRECISION AS $$
+DECLARE
+    masa DOUBLE PRECISION;
+BEGIN
+    SELECT SUM(waga) INTO masa FROM train.typ_pojazdu_osobowego WHERE id_typ_po IN (SELECT id_typ_po FROM train.wagon WHERE id_sklad IN (SELECT id_sklad FROM train.sklad WHERE id_pojazd = id_pojazd));
+    RETURN masa;
+END;
+$$ LANGUAGE plpgsql;
+
+
+--stwórz funkcję która zwróci wagę wagonu
+CREATE OR REPLACE FUNCTION train.waga_wagonu(id_wagon INTEGER)
+    RETURNS DOUBLE PRECISION AS
+$$
+DECLARE
+    waga DOUBLE PRECISION;
+BEGIN
+    SELECT waga INTO waga FROM train.typ_pojazdu_osobowego WHERE id_typ_po IN (SELECT id_typ_po FROM train.wagon WHERE id_wagon = id_wagon);
+    RETURN waga;
+END;
+$$ LANGUAGE plpgsql;
+
+--stwórz funkcję która zwróci wagę wagonu_zt
+CREATE OR REPLACE FUNCTION train.waga_wagonu_zt(id_wagon_zt INTEGER)
+RETURNS DOUBLE PRECISION AS
+$$
+DECLARE
+    waga DOUBLE PRECISION;
+BEGIN
+SELECT waga INTO waga FROM train.typ_pojazdu_osobowego WHERE id_typ_po IN (SELECT id_typ_po FROM train.wagon_zt WHERE id_wagon_zt = id_wagon_zt);
+RETURN waga;
+END;
+$$ LANGUAGE plpgsql;
+

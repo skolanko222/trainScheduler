@@ -9,7 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 
-public class Stacja extends Entity{
+public class
+Stacja extends Entity{
     private String nazwa;
     private String miejscowosc;
     private String ulica;

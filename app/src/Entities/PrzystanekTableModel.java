@@ -5,10 +5,12 @@ import PostgresSQLConnection.PostgresSQLConnection;
 import javax.swing.table.DefaultTableModel;
 import java.sql.Time;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class PrzystanekTableModel extends DefaultTableModel {
 
-    private Przystanek [] przystanki = new Przystanek[0];
+    private ArrayList<Przystanek> przystanki = new ArrayList<>();
     private PostgresSQLConnection connection;
 
     public PrzystanekTableModel(PostgresSQLConnection connection){
@@ -17,10 +19,7 @@ public class PrzystanekTableModel extends DefaultTableModel {
     }
 
     public void addPrzystanek(Przystanek przystanek){
-        Przystanek [] temp = new Przystanek[przystanki.length + 1];
-        System.arraycopy(przystanki, 0, temp, 0, przystanki.length);
-        temp[przystanki.length] = przystanek;
-        przystanki = temp;
+        przystanki.add(przystanek);
         fireTableDataChanged();
     }
 
@@ -28,7 +27,7 @@ public class PrzystanekTableModel extends DefaultTableModel {
         if(przystanki == null)
             return 0;
         else
-            return przystanki.length;
+            return przystanki.size();
     }
 
     public int getColumnCount() {
@@ -48,40 +47,40 @@ public class PrzystanekTableModel extends DefaultTableModel {
     public Object getValueAt(int row, int col) {
         switch (col) {
             case 0:
-                return przystanki[row].getNr_kolejnosc();
+                return przystanki.get(row).getNr_kolejnosc();
             case 1:
-                return przystanki[row].getNazwa(connection);
+                return przystanki.get(row).getNazwa(connection);
             case 2:
-                return przystanki[row].getCzas_przyjazdu();
+                return przystanki.get(row).getCzas_przyjazdu();
             case 3:
-                return przystanki[row].getCzas_odjazdu();
+                return przystanki.get(row).getCzas_odjazdu();
             default:
                 return null;
         }
     }
 
-    public Przystanek[] getPrzystanki(){
+    public ArrayList<Przystanek> getPrzystanki(){
         return przystanki;
     }
 
     public void moveDown(int selectedRow) {
-        if(selectedRow < przystanki.length - 1){
-            Przystanek temp = przystanki[selectedRow];
-            przystanki[selectedRow] = przystanki[selectedRow + 1];
-            przystanki[selectedRow].setNr_kolejnosc(selectedRow );
+        if(selectedRow < przystanki.size() - 1){
+            Przystanek temp = przystanki.get(selectedRow);
+            przystanki.set(selectedRow, przystanki.get(selectedRow + 1));
+            przystanki.get(selectedRow).setNr_kolejnosc(selectedRow );
             temp.setNr_kolejnosc(selectedRow + 1);
-            przystanki[selectedRow + 1] = temp;
+            przystanki.set(selectedRow + 1, temp);
             fireTableDataChanged();
         }
 
     }
     public void moveUp(int selectedRow) {
         if(selectedRow > 0){
-            Przystanek temp = przystanki[selectedRow];
-            przystanki[selectedRow] = przystanki[selectedRow - 1];
-            przystanki[selectedRow].setNr_kolejnosc(selectedRow );
+            Przystanek temp = przystanki.get(selectedRow);
+            przystanki.set(selectedRow, przystanki.get(selectedRow - 1));
+            przystanki.get(selectedRow).setNr_kolejnosc(selectedRow );
             temp.setNr_kolejnosc(selectedRow - 1);
-            przystanki[selectedRow - 1] = temp;
+            przystanki.set(selectedRow - 1, temp);
             fireTableDataChanged();
         }
     }

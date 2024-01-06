@@ -1,5 +1,7 @@
 package Entities;
 
+import PostgresSQLConnection.PostgresSQLConnection;
+
 import java.sql.Connection;
 
 abstract public class Entity {
