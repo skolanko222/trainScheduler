@@ -78,6 +78,9 @@ public class Main extends JFrame{
     private JButton buttonAddPojazd;
     private JPanel pojTab;
     private JButton buttonAddSklad;
+    private JComboBox comboSkladDoKursu;
+    private JComboBox comboKursDoSkladu;
+    private JButton przypiszSkładDoKursuButton;
     private String[] pobraneTypyEnum;
     private String[] nazwyEgzemplarzyWagon;
     private String[] nazwyEgzemplarzyLokomotyw;
@@ -105,6 +108,20 @@ public class Main extends JFrame{
         ArrayList<String> typy = new ArrayList<>(Arrays.asList(pobraneTypyEnum));
         typy.add("lokomotywa");
 
+        Sklad [] sklady = Sklad.getFreeSklad(connection);
+        String [] idSkladow = new String[sklady.length];
+        for(int i = 0; i < sklady.length; i++) {
+            idSkladow[i] = "" + sklady[i].getIdSkladu(connection.getConnection());
+        }
+
+        KursLini [] kursy = KursLini.getFreeKurs(connection);
+        String [] idKursow = new String[kursy.length];
+        for(int i = 0; i < kursy.length; i++) {
+            idKursow[i] = "" + kursy[i].getId();
+        }
+
+        comboKursDoSkladu.setModel(new DefaultComboBoxModel(idKursow));
+        comboSkladDoKursu.setModel(new DefaultComboBoxModel(idSkladow));
         comboTypWagonPojazd.setModel(new DefaultComboBoxModel(typy.toArray()));
 
         nazwyStacji = Stacja.getNazwyStacji(connection);
@@ -201,9 +218,8 @@ public class Main extends JFrame{
         przystanekTableModel = new PrzystanekTableModel(connection);
         pojazdTableModel = new PojazdTableModel(connection);
 
+
         reloadComboBoxes();
-
-
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         DateFormat tf = new SimpleDateFormat("HH:mm");
         fieldDataPrzyjazdu.setText(df.format(Calendar.getInstance().getTime()));
@@ -627,6 +643,7 @@ public class Main extends JFrame{
         buttonAddSklad.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                boolean flaga = true;
                 try {
                     connection.executeCommand(skladToBeSend.getInsertQuery(connection.getConnection()));
                 } catch (SQLException ex) {
@@ -637,11 +654,49 @@ public class Main extends JFrame{
                     try {
                         connection.executeCommand(t.getUpdateQuery(connection.getConnection()));
                     } catch (Exception exception) {
-                        JOptionPane.showMessageDialog(null, exception.getMessage());
+                        System.out.println(exception.getMessage());
+                        if(exception.getMessage().equals("Zapytanie nie zwróciło żadnych wyników."))
+                            System.out.println("Dodano pojazd do składu");
+                        else{
+                            exception.printStackTrace();
+                            flaga = false;
+                        }
                     }
                 }
+                if(flaga)
+                    JOptionPane.showMessageDialog(null, "Dodano skład!");
+                else
+                    JOptionPane.showMessageDialog(null, "Nie udało się dodać składu!");
+
                 skladToBeSend = null;
                 pojazdTableModel.getPojazdy().clear();
+                pojazdTableModel.fireTableDataChanged();
+            }
+        });
+        przypiszSkładDoKursuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int idSklad = Integer.parseInt(comboSkladDoKursu.getSelectedItem().toString());
+                int idKurs = Integer.parseInt(comboKursDoSkladu.getSelectedItem().toString());
+                Sklad skladToUpdate = new Sklad(idSklad, true);
+                KursLini kursToUpdate2 = new KursLini(idKurs, idSklad, 0); //id_lini ignored while updating
+                try {
+                    connection.executeCommand(skladToUpdate.getUpdateQuery(connection.getConnection()));
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                try {
+                    connection.executeCommand(kursToUpdate2.getUpdateQuery(connection.getConnection()));
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                reloadComboBoxes();
+            }
+        });
+        dodajLokomotyweButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TableView tableView = new TableView(connection);
             }
         });
     }

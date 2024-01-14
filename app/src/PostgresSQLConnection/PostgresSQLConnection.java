@@ -64,9 +64,16 @@ public class PostgresSQLConnection {
         try {
             statement = connection.createStatement();
         } catch (PSQLException e) {
-
+            e.printStackTrace();
         }
         return statement.executeQuery(command);
+    }
+
+    public ResultSet executeFunction(String command) throws SQLException{
+        if(!command.contains("(") || !command.contains(")"))
+            throw new SQLException("Function call must end with ()");
+        return executeCommand("SELECT * FROM " + command + ";");
+
     }
 
     private void forwardPort(int localPort, String remoteHost, int remotePort, String username, String password) {
