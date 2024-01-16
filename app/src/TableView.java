@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
+import java.util.Queue;
 
 public class TableView extends JFrame{
     private JPanel panel1;
@@ -24,6 +25,7 @@ public class TableView extends JFrame{
         setContentPane(panel1);
         pack();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE );
+        setSize(900, 344);
         setVisible(true);
         try{
             ResultSet rs = connection.executeFunction("train.get_tables('train')");
@@ -38,39 +40,10 @@ public class TableView extends JFrame{
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try{
-                    ResultSet rs = getTable(comboBox1.getSelectedItem().toString());
-                    //get all column names
-                    ResultSetMetaData rsmd = rs.getMetaData();
-                    int columnCount = rsmd.getColumnCount();
-                    String [] columnNames = new String[columnCount];
-                    for(int i = 0; i < columnCount; i++){
-                        columnNames[i] = rsmd.getColumnName(i+1);
-                    }
-                    //get all rows
-                    ArrayList<String[]> rows = new ArrayList<>();
-                    while(rs.next()){
-                        String [] row = new String[columnCount];
-                        for(int i = 0; i < columnCount; i++){
-                            row[i] = rs.getString(i+1);
-                        }
-                        rows.add(row);
-                    }
-                    DefaultTableModel model = new DefaultTableModel(rows.toArray(new Object[][]{}), columnNames);
-                    table1.setModel(model);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+                String query = "SELECT * FROM train." + comboBox1.getSelectedItem().toString();
+                TableFun.showTable(connection, query, table1);
             }
         });
-    }
-    public ResultSet getTable(String tableName){
-        try{
-            return connection.executeCommand("SELECT * FROM train." + tableName + ";");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
 }

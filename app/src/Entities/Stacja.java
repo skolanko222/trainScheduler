@@ -9,8 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 
-public class
-Stacja extends Entity{
+public class Stacja extends Entity{
     private String nazwa;
     private String miejscowosc;
     private String ulica;
@@ -66,6 +65,7 @@ Stacja extends Entity{
         }
         return null;
     }
+
 
     @Override
     public String getUpdateQuery(Connection c) {

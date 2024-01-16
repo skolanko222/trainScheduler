@@ -12,6 +12,8 @@ public class Lokomotywa extends Entity implements PojazdInterface{
 
     private int id_lokomotywa;
     private Integer id_sklad;
+    private String name = null;
+    private Double maxUciag = null;
     public Lokomotywa(Integer id, int id_lokomotywa, Integer id_sklad) {
         super(id);
         this.id_lokomotywa = id_lokomotywa;
@@ -80,24 +82,29 @@ public class Lokomotywa extends Entity implements PojazdInterface{
         return 0;
     }
     @Override
-    public int getMaxUciag(PostgresSQLConnection connection) {
+    public Double getMaxUciag(PostgresSQLConnection connection) {
+        if(maxUciag != null)
+            return maxUciag;
         try {
             PreparedStatement pst = connection.getConnection().prepareStatement("SELECT max_uciag FROM " + schema + "typ_lokomotywa" +
-                    " JOIN " + schema + "lokomotywa ON " + schema + "typ_lokomotywa.id_lokomotywa = " + schema + "lokomotywa.id_lokomotywa_pk"+
+                    " JOIN " + schema + "lokomotywa ON " + schema + "typ_lokomotywa.id_lokomotywa = " + schema + "lokomotywa.id_lokomotywa"+
                     " WHERE id_lokomotywa_pk = ?");
-            pst.setInt(1, id_lokomotywa);
+            pst.setInt(1, id);
             ResultSet rs = pst.executeQuery();
             rs.next();
-            return rs.getInt(1);
+            maxUciag = rs.getInt(1) + 0.;
+            return maxUciag;
         }
         catch (SQLException e){
             e.printStackTrace();
         }
-        return 0;
+        return 0.;
 
     }
     @Override
     public String getNazwa(PostgresSQLConnection connection) {
+        if (name != null)
+            return name;
         try {
             PreparedStatement pst = connection.getConnection().prepareStatement("SELECT nazwa FROM " + schema + "lokomotywa" +
                     " JOIN " + schema + "typ_lokomotywa ON " + schema + "lokomotywa.id_lokomotywa = " + schema + "typ_lokomotywa.id_lokomotywa" +
@@ -105,7 +112,8 @@ public class Lokomotywa extends Entity implements PojazdInterface{
             pst.setInt(1, id);
             ResultSet rs = pst.executeQuery();
             rs.next();
-            return rs.getString(1);
+            name = rs.getString(1);
+            return name;
         }
         catch (SQLException e){
             e.printStackTrace();

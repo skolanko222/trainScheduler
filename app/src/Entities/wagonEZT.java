@@ -12,6 +12,8 @@ public class wagonEZT extends Entity implements PojazdInterface{
 
     int id_typPojazdu;
     Integer id_sklad;
+    Integer masa = null;
+    String nazwa = null;
     public wagonEZT(Integer primary,int id_typPojazdu, Integer id_sklad) {
         super(primary);
         this.id_typPojazdu = id_typPojazdu;
@@ -52,10 +54,10 @@ public class wagonEZT extends Entity implements PojazdInterface{
         try{
             PreparedStatement pst = c.prepareStatement("UPDATE " + schema + "wagon_zt SET " +
                     "id_sklad = ?, id_typ_po = ?" + " WHERE id_wagon_zt = ?");
-            if(id_sklad == null)
-                pst.setNull(1, java.sql.Types.INTEGER);
-            else
-                pst.setInt(1, id_sklad);
+//            if(id_sklad == null)
+//                pst.setNull(1, java.sql.Types.INTEGER);
+//            else
+            pst.setInt(1, id_sklad);
             pst.setInt(2, id_typPojazdu);
             pst.setInt(3, id);
             return pst.toString();
@@ -73,6 +75,8 @@ public class wagonEZT extends Entity implements PojazdInterface{
 
     @Override
     public int getMasa(PostgresSQLConnection connection) {
+        if(masa != null)
+            return masa;
         try {
             PreparedStatement pst = connection.getConnection().prepareStatement("SELECT waga FROM " + schema + "wagon_zt" +
                     " JOIN " + schema + "typ_pojazdu_osobowego ON " + schema + "wagon_zt.id_typ_po = " + schema + "typ_pojazdu_osobowego.id_typ_po" +
@@ -80,7 +84,8 @@ public class wagonEZT extends Entity implements PojazdInterface{
             pst.setInt(1, id_typPojazdu);
             ResultSet rs = pst.executeQuery();
             rs.next();
-            return rs.getInt(1);
+            masa = rs.getInt(1);
+            return masa;
         }
         catch (SQLException e){
             e.printStackTrace();
@@ -91,6 +96,8 @@ public class wagonEZT extends Entity implements PojazdInterface{
 
     @Override
     public String getNazwa(PostgresSQLConnection connection) {
+        if(nazwa != null)
+            return nazwa;
         try {
             PreparedStatement pst = connection.getConnection().prepareStatement("SELECT nazwa_wagonu FROM " + schema + "typ_pojazdu_osobowego" +
                     " JOIN " + schema + "wagon_zt ON " + schema + "typ_pojazdu_osobowego.id_typ_po = " + schema + "wagon_zt.id_typ_po " +
@@ -99,7 +106,8 @@ public class wagonEZT extends Entity implements PojazdInterface{
             pst.setInt(1, id);
             ResultSet rs = pst.executeQuery();
             rs.next();
-            return rs.getString(1);
+            nazwa = rs.getString(1);
+            return nazwa;
         }
         catch (SQLException e){
             e.printStackTrace();
@@ -108,8 +116,8 @@ public class wagonEZT extends Entity implements PojazdInterface{
     }
 
     @Override
-    public int getMaxUciag(PostgresSQLConnection connection) {
-        return 0;
+    public Double getMaxUciag(PostgresSQLConnection connection) {
+        return 0.;
     }
 
     @Override

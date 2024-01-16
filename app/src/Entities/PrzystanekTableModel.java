@@ -84,4 +84,10 @@ public class PrzystanekTableModel extends DefaultTableModel {
             fireTableDataChanged();
         }
     }
+
+    @Override
+    public void removeRow(int row) {
+        przystanki.remove(row);
+        fireTableDataChanged();
+    }
 }

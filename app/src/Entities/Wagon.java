@@ -11,6 +11,8 @@ import java.sql.SQLException;
 public class Wagon extends Entity implements PojazdInterface{
     int id_typ_po;
     Integer id_sklad;
+    Integer masa = null;
+    String nazwa = null;
     public Wagon(Integer primarym, int id_typPojazdu, Integer id_sklad) {
         super(primarym);
         this.id_typ_po = id_typPojazdu;
@@ -72,6 +74,8 @@ public class Wagon extends Entity implements PojazdInterface{
 
     @Override
     public int getMasa(PostgresSQLConnection connection) {
+        if(masa != null)
+            return masa;
         try {
             PreparedStatement pst = connection.getConnection().prepareStatement("SELECT waga FROM " + schema + "typ_pojazdu_osobowego"
                     + " JOIN " + schema + "wagon ON " + schema + "typ_pojazdu_osobowego.id_typ_po = " + schema + "wagon.id_typ_po" +
@@ -79,7 +83,8 @@ public class Wagon extends Entity implements PojazdInterface{
             pst.setInt(1, id);
             ResultSet rs = pst.executeQuery();
             rs.next();
-            return rs.getInt(1);
+            masa = rs.getInt(1);
+            return masa;
         }
         catch (SQLException e){
             e.printStackTrace();
@@ -88,12 +93,14 @@ public class Wagon extends Entity implements PojazdInterface{
     }
 
     @Override
-    public int getMaxUciag(PostgresSQLConnection connection) {
-        return 0;
+    public Double getMaxUciag(PostgresSQLConnection connection) {
+        return 0.;
     }
 
     @Override
     public String getNazwa(PostgresSQLConnection connection) {
+        if(nazwa != null)
+            return nazwa;
         try {
             PreparedStatement pst = connection.getConnection().prepareStatement("SELECT nazwa_wagonu FROM " + schema + "typ_pojazdu_osobowego" +
                     " JOIN " + schema + "wagon ON " + schema + "typ_pojazdu_osobowego.id_typ_po = " + schema + "wagon.id_typ_po "+
@@ -101,7 +108,8 @@ public class Wagon extends Entity implements PojazdInterface{
             pst.setInt(1, id);
             ResultSet rs = pst.executeQuery();
             rs.next();
-            return rs.getString(1);
+            nazwa = rs.getString(1);
+            return nazwa;
         }
         catch (SQLException e){
             e.printStackTrace();

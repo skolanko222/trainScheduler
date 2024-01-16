@@ -25,8 +25,7 @@ import java.util.Calendar;
 
 public class Main extends JFrame{
     private JButton dodajLokomotyweButton;
-    private JButton dodajWagonButton;
-    private JButton dodajEZTButton;
+    private JButton buttonRaport;
     private JPanel mainPanel;
     private JPanel tabPanel;
     private JPanel wagTab;
@@ -81,6 +80,10 @@ public class Main extends JFrame{
     private JComboBox comboSkladDoKursu;
     private JComboBox comboKursDoSkladu;
     private JButton przypiszSkładDoKursuButton;
+    private JButton usuńZaznaczonyPojazdButton;
+    private JButton usuńZaznaczonyButton;
+    private JLabel labelAktualnyUciag;
+    private JLabel labelAktualnaWaga;
     private String[] pobraneTypyEnum;
     private String[] nazwyEgzemplarzyWagon;
     private String[] nazwyEgzemplarzyLokomotyw;
@@ -99,14 +102,20 @@ public class Main extends JFrame{
             super(message);
         }
     }
+    private void updateLabelWagaSkladu(){
+        double waga = pojazdTableModel.getWagaCalkowita();
+        double uciag = pojazdTableModel.getMaxUciag();
+        labelAktualnaWaga.setText("Aktualna waga składu: " + waga + " t");
+        labelAktualnyUciag.setText("Aktualny uciąg składu: " + uciag + " t");
 
+    }
     private void reloadComboBoxes() {
         pobraneTypyEnum = TypPojazdu.getTypEnum(connection);
         comboBox1.setModel(new DefaultComboBoxModel(pobraneTypyEnum));
         comboBox3.setModel(new DefaultComboBoxModel(pobraneTypyEnum)); // typ wagonu dodawanego jako egzemplarz
         //convert pobraneTypyEnum to ArrayList<String>
         ArrayList<String> typy = new ArrayList<>(Arrays.asList(pobraneTypyEnum));
-        typy.add("lokomotywa");
+
 
         Sklad [] sklady = Sklad.getFreeSklad(connection);
         String [] idSkladow = new String[sklady.length];
@@ -208,6 +217,8 @@ public class Main extends JFrame{
     }
     public Main(PostgresSQLConnection connection) {
         super("MainUI");
+        // priont size of window
+
         this.connection = connection;
         this.setContentPane(mainPanel);
         this.setTitle("Bazy danych");
@@ -217,6 +228,7 @@ public class Main extends JFrame{
         this.setVisible(true);
         przystanekTableModel = new PrzystanekTableModel(connection);
         pojazdTableModel = new PojazdTableModel(connection);
+        System.out.println(this.getSize());
 
 
         reloadComboBoxes();
@@ -522,6 +534,7 @@ public class Main extends JFrame{
                         JOptionPane.showMessageDialog(null, exception.getMessage());
                     }
                 }
+                przystanekTableModel.getPrzystanki().clear();
                 reloadComboBoxes();
             }
         });
@@ -608,11 +621,12 @@ public class Main extends JFrame{
                     return;
                 }
                 else {
-
                     pojazdTableModel.addEntity(objToSend);
                 }
 
                 updateLabelEgzPojazd();
+                updateLabelWagaSkladu();
+
 
             }
         });
@@ -643,13 +657,16 @@ public class Main extends JFrame{
         buttonAddSklad.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                boolean flaga = true;
-                try {
-                    connection.executeCommand(skladToBeSend.getInsertQuery(connection.getConnection()));
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
+                if(pojazdTableModel.getWagaCalkowita() > pojazdTableModel.getMaxUciag()) {
+                    JOptionPane.showMessageDialog(null, "Waga składu przekracza maksymalny uciąg!");
+                    return;
                 }
-                System.out.println(pojazdTableModel.getPojazdy());
+                    try {
+                        connection.executeCommand(skladToBeSend.getInsertQuery(connection.getConnection()));
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                boolean flaga = true;
                 for(Entity t : pojazdTableModel.getPojazdy() ) {
                     try {
                         connection.executeCommand(t.getUpdateQuery(connection.getConnection()));
@@ -671,20 +688,33 @@ public class Main extends JFrame{
                 skladToBeSend = null;
                 pojazdTableModel.getPojazdy().clear();
                 pojazdTableModel.fireTableDataChanged();
+                reloadComboBoxes();
+                pojazdTableModel.setMaxUciag(0);
+                pojazdTableModel.setWagaCalkowita(0);
+                updateLabelWagaSkladu();
+
             }
         });
         przypiszSkładDoKursuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int idSklad = Integer.parseInt(comboSkladDoKursu.getSelectedItem().toString());
-                int idKurs = Integer.parseInt(comboKursDoSkladu.getSelectedItem().toString());
+                int idSklad, idKurs;
+
+                try{
+                     idSklad = Integer.parseInt(comboSkladDoKursu.getSelectedItem().toString());
+                     idKurs = Integer.parseInt(comboKursDoSkladu.getSelectedItem().toString());
+                }catch (NullPointerException exception) {
+                    JOptionPane.showMessageDialog(null, "Brak wybranego kursu/skladu!");
+                    reloadComboBoxes();
+                    return;
+                }
                 Sklad skladToUpdate = new Sklad(idSklad, true);
                 KursLini kursToUpdate2 = new KursLini(idKurs, idSklad, 0); //id_lini ignored while updating
-                try {
-                    connection.executeCommand(skladToUpdate.getUpdateQuery(connection.getConnection()));
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
+//                try {
+//                    //connection.executeCommand(skladToUpdate.getUpdateQuery(connection.getConnection()));
+//                } catch (SQLException throwables) {
+//                    throwables.printStackTrace();
+//                }
                 try {
                     connection.executeCommand(kursToUpdate2.getUpdateQuery(connection.getConnection()));
                 } catch (SQLException throwables) {
@@ -697,6 +727,29 @@ public class Main extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 TableView tableView = new TableView(connection);
+            }
+        });
+        buttonRaport.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                RaporView raporView = new RaporView(connection);
+
+            }
+        });
+        usuńZaznaczonyPojazdButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = tabelaPojazd.getSelectedRow();
+                pojazdTableModel.removeRow(selectedRow);
+                updateLabelWagaSkladu();
+
+            }
+        });
+        usuńZaznaczonyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = tableLinia.getSelectedRow();
+                przystanekTableModel.removeRow(selectedRow);
             }
         });
     }

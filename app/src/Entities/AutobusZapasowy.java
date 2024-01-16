@@ -10,11 +10,12 @@ import PostgresSQLConnection.PostgresSQLConnection;
 public class AutobusZapasowy extends Entity implements PojazdInterface{
     int id_typ_po;
     Integer id_sklad;
-    public AutobusZapasowy(Integer primary, Integer id_typPojazdu, Integer id_pojazd) {
+    String nazwa = null;
+    public AutobusZapasowy(Integer primary, Integer id_typPojazdu, Integer id_sklad) {
 
         super(primary);
         this.id_typ_po = id_typPojazdu;
-        this.id_sklad = id_pojazd;
+        this.id_sklad = id_sklad;
     }
 
     public AutobusZapasowy() {
@@ -44,12 +45,11 @@ public class AutobusZapasowy extends Entity implements PojazdInterface{
     @Override
     public String getUpdateQuery(Connection c) {
         try{
-            PreparedStatement pst = c.prepareStatement("UPDATE " + schema + "autobus_zapasowy SET " +
-                    "id_sklad = ?, id_typ_po = ?" + " WHERE id_autobus = ?");
-            if(id_sklad == null)
-                pst.setNull(1, java.sql.Types.INTEGER);
-            else
-                pst.setInt(1, id_sklad);
+            PreparedStatement pst = c.prepareStatement("UPDATE " + schema + "autobus_zapasowy SET id_sklad = ?, id_typ_po = ? WHERE id_autobus = ?");
+//            if(id_sklad == null)
+//                pst.setNull(1, java.sql.Types.INTEGER);
+//            else
+            pst.setInt(1, id_sklad);
             pst.setInt(2, id_typ_po);
             pst.setInt(3, id);
             return pst.toString();
@@ -75,6 +75,8 @@ public class AutobusZapasowy extends Entity implements PojazdInterface{
 
     @Override
     public String getNazwa(PostgresSQLConnection connection) {
+        if(nazwa != null)
+            return nazwa;
         try {
             PreparedStatement pst = connection.getConnection().prepareStatement("SELECT nazwa_wagonu FROM " + schema + "typ_pojazdu_osobowego" +
                     " JOIN " + schema + "autobus_zapasowy ON " + schema + "typ_pojazdu_osobowego.id_typ_po = " + schema + "autobus_zapasowy.id_typ_po"+
@@ -82,7 +84,8 @@ public class AutobusZapasowy extends Entity implements PojazdInterface{
             pst.setInt(1, id);
             ResultSet rs = pst.executeQuery();
             rs.next();
-            return rs.getString(1);
+            nazwa = rs.getString(1);
+            return nazwa;
         }
         catch (SQLException e){
             e.printStackTrace();
@@ -98,7 +101,7 @@ public class AutobusZapasowy extends Entity implements PojazdInterface{
     }
 
     @Override
-    public int getMaxUciag(PostgresSQLConnection connection) {
-        return 0;
+    public Double getMaxUciag(PostgresSQLConnection connection) {
+        return 0.;
     }
 }

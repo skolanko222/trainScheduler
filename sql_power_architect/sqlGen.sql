@@ -1,422 +1,12 @@
--- --v1
--- CREATE TABLE train.linia (
---                 id_linia SERIAL NOT NULL,
---                 nazwa VARCHAR NOT NULL,
---                 CONSTRAINT linia_pk PRIMARY KEY (id_linia)
--- );
-
-
--- CREATE TABLE train.stacja (
---                 id_stacja SERIAL NOT NULL,
---                 nazwa VARCHAR NOT NULL,
---                 CONSTRAINT id_stacja PRIMARY KEY (id_stacja)
--- );
-
-
--- CREATE TABLE train.przystanek (
---                 id_przystanek SERIAL NOT NULL,
---                 id_stacja SERIAL NOT NULL,
---                 data_przyjazdu DATE NOT NULL,
---                 data_odjazdu DATE NOT NULL,
---                 godz_przyjazdu TIME NOT NULL,
---                 godz_odjazdu TIME NOT NULL,
---                 nr_kolejnosc INTEGER NOT NULL,
---                 CONSTRAINT id_przystanek PRIMARY KEY (id_przystanek)
--- );
-
-
--- CREATE TABLE train.pojazd (
---                 id_pojazd SERIAL NOT NULL,
---                 CONSTRAINT id_pojazd PRIMARY KEY (id_pojazd)
--- );
-
-
--- CREATE TABLE train.sklad (
---                 id_sklad SERIAL NOT NULL,
---                 id_pojazd SERIAL,
---                 CONSTRAINT id_sklad PRIMARY KEY (id_sklad)
--- );
-
-
--- CREATE TABLE train.zespol_trakcyjny (
---                 id_zt SERIAL NOT NULL,
---                 id_sklad SERIAL,
---                 nazwa VARCHAR NOT NULL,
---                 CONSTRAINT id_zt PRIMARY KEY (id_zt)
--- );
-
-
--- CREATE TABLE train.kurs_lini (
---                 id_kurs SERIAL NOT NULL,
---                 id_pojazd SERIAL NOT NULL,
---                 id_linia SERIAL NOT NULL,
---                 id_przystanek SERIAL NOT NULL,
---                 CONSTRAINT kurs_lini_pk PRIMARY KEY (id_kurs)
--- );
-
-
--- CREATE TABLE train.lokomotywa (
---                 id_lokomotywa SERIAL NOT NULL,
---                 id_sklad SERIAL,
---                 nazwa VARCHAR NOT NULL,
---                 moc INTEGER NOT NULL,
---                 max_pre INTEGER NOT NULL,
---                 max_uciag INTEGER NOT NULL,
---                 CONSTRAINT id_lokomotywa PRIMARY KEY (id_lokomotywa)
--- );
-
--- CREATE TYPE typ AS ENUM ('EZT', 'wagon', 'autobus');
--- CREATE TABLE train.typ_pojazdu_osobowego (
---                 id_typ_po SERIAL NOT NULL,
--- 				typPojazdu typ NOT NULL,
---                 nazwa_wagonu VARCHAR NOT NULL,
---                 czy_restauracyjny BOOLEAN NOT NULL,
---                 czy_wc BOOLEAN NOT NULL,
---                 waga DOUBLE PRECISION NOT NULL,
---                 ilosc_miejsc INTEGER NOT NULL,
---                 CONSTRAINT id_typ_wagonu PRIMARY KEY (id_typ_po)
--- );
-
-
--- CREATE TABLE train.autobus_zapasowy (
---                 id_autobus SERIAL NOT NULL,
---                 id_pojazd SERIAL,
---                 id_typ_po SERIAL NOT NULL,
---                 CONSTRAINT id_autobus PRIMARY KEY (id_autobus)
--- );
-
-
--- CREATE TABLE train.wagon_zt (
---                 id_wagon_zt SERIAL NOT NULL,
---                 id_zt SERIAL,
---                 id_typ_po SERIAL NOT NULL,
---                 CONSTRAINT id_wagon_zt PRIMARY KEY (id_wagon_zt)
--- );
-
-
--- CREATE TABLE train.wagon (
---                 id_wagon SERIAL NOT NULL,
---                 id_sklad SERIAL,
---                 id_typ_po SERIAL NOT NULL,
---                 CONSTRAINT id_wagon PRIMARY KEY (id_wagon)
--- );
-
-
--- ALTER TABLE train.kurs_lini ADD CONSTRAINT linia_kurs_lini_fk
--- FOREIGN KEY (id_linia)
--- REFERENCES train.linia (id_linia)
--- ON DELETE NO ACTION
--- ON UPDATE NO ACTION
--- NOT DEFERRABLE;
-
--- ALTER TABLE train.przystanek ADD CONSTRAINT stacja_przystanek_fk
--- FOREIGN KEY (id_stacja)
--- REFERENCES train.stacja (id_stacja)
--- ON DELETE NO ACTION
--- ON UPDATE NO ACTION
--- NOT DEFERRABLE;
-
--- ALTER TABLE train.kurs_lini ADD CONSTRAINT przystanek_kurs_lini_fk
--- FOREIGN KEY (id_przystanek)
--- REFERENCES train.przystanek (id_przystanek)
--- ON DELETE NO ACTION
--- ON UPDATE NO ACTION
--- NOT DEFERRABLE;
-
--- ALTER TABLE train.kurs_lini ADD CONSTRAINT pojazd_kurs_lini_fk
--- FOREIGN KEY (id_pojazd)
--- REFERENCES train.pojazd (id_pojazd)
--- ON DELETE NO ACTION
--- ON UPDATE NO ACTION
--- NOT DEFERRABLE;
-
--- ALTER TABLE train.autobus_zapasowy ADD CONSTRAINT pojazd_autobus_zapasowy_fk
--- FOREIGN KEY (id_pojazd)
--- REFERENCES train.pojazd (id_pojazd)
--- ON DELETE NO ACTION
--- ON UPDATE NO ACTION
--- NOT DEFERRABLE;
-
--- ALTER TABLE train.sklad ADD CONSTRAINT pojazd_sklad_fk
--- FOREIGN KEY (id_pojazd)
--- REFERENCES train.pojazd (id_pojazd)
--- ON DELETE NO ACTION
--- ON UPDATE NO ACTION
--- NOT DEFERRABLE;
-
--- ALTER TABLE train.wagon ADD CONSTRAINT pojazd_szynowy_wagon_fk
--- FOREIGN KEY (id_sklad)
--- REFERENCES train.sklad (id_sklad)
--- ON DELETE NO ACTION
--- ON UPDATE NO ACTION
--- NOT DEFERRABLE;
-
--- ALTER TABLE train.lokomotywa ADD CONSTRAINT pojazd_szynowy_lokomotywa_fk
--- FOREIGN KEY (id_sklad)
--- REFERENCES train.sklad (id_sklad)
--- ON DELETE NO ACTION
--- ON UPDATE NO ACTION
--- NOT DEFERRABLE;
-
--- ALTER TABLE train.zespol_trakcyjny ADD CONSTRAINT sklad_zespol_trakcyjny_fk
--- FOREIGN KEY (id_sklad)
--- REFERENCES train.sklad (id_sklad)
--- ON DELETE NO ACTION
--- ON UPDATE NO ACTION
--- NOT DEFERRABLE;
-
--- ALTER TABLE train.wagon_zt ADD CONSTRAINT zespol_trakcyjny_wagon_zt_fk
--- FOREIGN KEY (id_zt)
--- REFERENCES train.zespol_trakcyjny (id_zt)
--- ON DELETE NO ACTION
--- ON UPDATE NO ACTION
--- NOT DEFERRABLE;
-
--- ALTER TABLE train.wagon ADD CONSTRAINT typ_wagonu_wagon_fk
--- FOREIGN KEY (id_typ_po)
--- REFERENCES train.typ_pojazdu_osobowego (id_typ_po)
--- ON DELETE NO ACTION
--- ON UPDATE NO ACTION
--- NOT DEFERRABLE;
-
--- ALTER TABLE train.wagon_zt ADD CONSTRAINT typ_wagonu_wagon_zt_fk
--- FOREIGN KEY (id_typ_po)
--- REFERENCES train.typ_pojazdu_osobowego (id_typ_po)
--- ON DELETE NO ACTION
--- ON UPDATE NO ACTION
--- NOT DEFERRABLE;
-
--- ALTER TABLE train.autobus_zapasowy ADD CONSTRAINT typ_pojazdu_osobowego_autobus_zapasowy_fk
--- FOREIGN KEY (id_typ_po)
--- REFERENCES train.typ_pojazdu_osobowego (id_typ_po)
--- ON DELETE NO ACTION
--- ON UPDATE NO ACTION
--- NOT DEFERRABLE;
-
-
-
-
-
-
--- --v2
--- CREATE TABLE train.linia (
---                 id_linia SERIAL NOT NULL,
---                 nazwa VARCHAR NOT NULL,
---                 CONSTRAINT linia_pk PRIMARY KEY (id_linia)
--- );
-
-
--- CREATE TABLE train.stacja (
---                 id_stacja SERIAL NOT NULL,
---                 nazwa VARCHAR NOT NULL,
---                 CONSTRAINT id_stacja PRIMARY KEY (id_stacja)
--- );
-
-
--- CREATE TABLE train.przystanek (
---                 id_przystanek SERIAL NOT NULL,
---                 id_stacja SERIAL NOT NULL,
---                 data_przyjazdu DATE NOT NULL,
---                 data_odjazdu DATE NOT NULL,
---                 godz_przyjazdu TIME NOT NULL,
---                 godz_odjazdu TIME NOT NULL,
---                 nr_kolejnosc INTEGER NOT NULL,
---                 CONSTRAINT id_przystanek PRIMARY KEY (id_przystanek)
--- );
-
-
--- CREATE TABLE train.pojazd (
---                 id_pojazd SERIAL NOT NULL,
---                 CONSTRAINT id_pojazd PRIMARY KEY (id_pojazd)
--- );
-
-
--- CREATE TABLE train.sklad (
---                 id_sklad SERIAL NOT NULL,
---                 id_pojazd SERIAL,
---                 CONSTRAINT id_sklad PRIMARY KEY (id_sklad)
--- );
-
-
--- CREATE TABLE train.zespol_trakcyjny (
---                 id_zt SERIAL NOT NULL,
---                 id_sklad SERIAL,
---                 nazwa VARCHAR NOT NULL,
---                 CONSTRAINT id_zt PRIMARY KEY (id_zt)
--- );
-
-
--- CREATE TABLE train.kurs_lini (
---                 id_kurs SERIAL NOT NULL,
---                 id_pojazd SERIAL NOT NULL,
---                 id_linia SERIAL NOT NULL,
---                 id_przystanek SERIAL NOT NULL,
---                 CONSTRAINT kurs_lini_pk PRIMARY KEY (id_kurs)
--- );
-
-
--- CREATE TABLE train.typ_lokomotywa (
---                 id_lokomotywa SERIAL NOT NULL,
---                 nazwa VARCHAR NOT NULL,
---                 moc INTEGER NOT NULL,
---                 max_pre INTEGER NOT NULL,
---                 max_uciag INTEGER NOT NULL,
---                 CONSTRAINT id_lokomotywa PRIMARY KEY (id_lokomotywa)
--- );
-
-
--- CREATE TABLE train.lokomotywa (
---                 id_lokomotywa SERIAL NOT NULL,
---                 id_sklad SERIAL,
---                 CONSTRAINT lokomotywa_pk PRIMARY KEY (id_lokomotywa)
--- );
-
--- CREATE TYPE typ AS ENUM ('EZT', 'wagon', 'autobus');
--- CREATE TABLE train.typ_pojazdu_osobowego (
---                 id_typ_po SERIAL NOT NULL,
---                 typPojazdu typ NOT NULL,
---                 nazwa_wagonu VARCHAR NOT NULL,
---                 czy_restauracyjny BOOLEAN NOT NULL,
---                 czy_wc BOOLEAN NOT NULL,
---                 waga DOUBLE PRECISION NOT NULL,
---                 ilosc_miejsc INTEGER NOT NULL,
---                 CONSTRAINT id_typ_wagonu PRIMARY KEY (id_typ_po)
--- );
-
-
--- CREATE TABLE train.autobus_zapasowy (
---                 id_autobus SERIAL NOT NULL,
---                 id_pojazd SERIAL,
---                 id_typ_po SERIAL NOT NULL,
---                 CONSTRAINT id_autobus PRIMARY KEY (id_autobus)
--- );
-
-
--- CREATE TABLE train.wagon_zt (
---                 id_wagon_zt SERIAL NOT NULL,
---                 id_zt SERIAL,
---                 id_typ_po SERIAL NOT NULL,
---                 CONSTRAINT id_wagon_zt PRIMARY KEY (id_wagon_zt)
--- );
-
-
--- CREATE TABLE train.wagon (
---                 id_wagon SERIAL NOT NULL,
---                 id_sklad SERIAL,
---                 id_typ_po SERIAL NOT NULL,
---                 CONSTRAINT id_wagon PRIMARY KEY (id_wagon)
--- );
-
-
--- ALTER TABLE train.kurs_lini ADD CONSTRAINT linia_kurs_lini_fk
--- FOREIGN KEY (id_linia)
--- REFERENCES train.linia (id_linia)
--- ON DELETE NO ACTION
--- ON UPDATE NO ACTION
--- NOT DEFERRABLE;
-
--- ALTER TABLE train.przystanek ADD CONSTRAINT stacja_przystanek_fk
--- FOREIGN KEY (id_stacja)
--- REFERENCES train.stacja (id_stacja)
--- ON DELETE NO ACTION
--- ON UPDATE NO ACTION
--- NOT DEFERRABLE;
-
--- ALTER TABLE train.kurs_lini ADD CONSTRAINT przystanek_kurs_lini_fk
--- FOREIGN KEY (id_przystanek)
--- REFERENCES train.przystanek (id_przystanek)
--- ON DELETE NO ACTION
--- ON UPDATE NO ACTION
--- NOT DEFERRABLE;
-
--- ALTER TABLE train.kurs_lini ADD CONSTRAINT pojazd_kurs_lini_fk
--- FOREIGN KEY (id_pojazd)
--- REFERENCES train.pojazd (id_pojazd)
--- ON DELETE NO ACTION
--- ON UPDATE NO ACTION
--- NOT DEFERRABLE;
-
--- ALTER TABLE train.autobus_zapasowy ADD CONSTRAINT pojazd_autobus_zapasowy_fk
--- FOREIGN KEY (id_pojazd)
--- REFERENCES train.pojazd (id_pojazd)
--- ON DELETE NO ACTION
--- ON UPDATE NO ACTION
--- NOT DEFERRABLE;
-
--- ALTER TABLE train.sklad ADD CONSTRAINT pojazd_sklad_fk
--- FOREIGN KEY (id_pojazd)
--- REFERENCES train.pojazd (id_pojazd)
--- ON DELETE NO ACTION
--- ON UPDATE NO ACTION
--- NOT DEFERRABLE;
-
--- ALTER TABLE train.wagon ADD CONSTRAINT pojazd_szynowy_wagon_fk
--- FOREIGN KEY (id_sklad)
--- REFERENCES train.sklad (id_sklad)
--- ON DELETE NO ACTION
--- ON UPDATE NO ACTION
--- NOT DEFERRABLE;
-
--- ALTER TABLE train.zespol_trakcyjny ADD CONSTRAINT sklad_zespol_trakcyjny_fk
--- FOREIGN KEY (id_sklad)
--- REFERENCES train.sklad (id_sklad)
--- ON DELETE NO ACTION
--- ON UPDATE NO ACTION
--- NOT DEFERRABLE;
-
--- ALTER TABLE train.lokomotywa ADD CONSTRAINT sklad_lokomotywa_fk
--- FOREIGN KEY (id_sklad)
--- REFERENCES train.sklad (id_sklad)
--- ON DELETE NO ACTION
--- ON UPDATE NO ACTION
--- NOT DEFERRABLE;
-
--- ALTER TABLE train.wagon_zt ADD CONSTRAINT zespol_trakcyjny_wagon_zt_fk
--- FOREIGN KEY (id_zt)
--- REFERENCES train.zespol_trakcyjny (id_zt)
--- ON DELETE NO ACTION
--- ON UPDATE NO ACTION
--- NOT DEFERRABLE;
-
--- ALTER TABLE train.lokomotywa ADD CONSTRAINT typ_lokomotywa_lokomotywa_fk
--- FOREIGN KEY (id_lokomotywa)
--- REFERENCES train.typ_lokomotywa (id_lokomotywa)
--- ON DELETE NO ACTION
--- ON UPDATE NO ACTION
--- NOT DEFERRABLE;
-
--- ALTER TABLE train.wagon ADD CONSTRAINT typ_wagonu_wagon_fk
--- FOREIGN KEY (id_typ_po)
--- REFERENCES train.typ_pojazdu_osobowego (id_typ_po)
--- ON DELETE NO ACTION
--- ON UPDATE NO ACTION
--- NOT DEFERRABLE;
-
--- ALTER TABLE train.wagon_zt ADD CONSTRAINT typ_wagonu_wagon_zt_fk
--- FOREIGN KEY (id_typ_po)
--- REFERENCES train.typ_pojazdu_osobowego (id_typ_po)
--- ON DELETE NO ACTION
--- ON UPDATE NO ACTION
--- NOT DEFERRABLE;
-
--- ALTER TABLE train.autobus_zapasowy ADD CONSTRAINT typ_pojazdu_osobowego_autobus_zapasowy_fk
--- FOREIGN KEY (id_typ_po)
--- REFERENCES train.typ_pojazdu_osobowego (id_typ_po)
--- ON DELETE NO ACTION
--- ON UPDATE NO ACTION
--- NOT DEFERRABLE;
-
---v3
-
 CREATE TABLE train.linia (
-                id_linia INTEGER NOT NULL,
+                id_linia SERIAL NOT NULL,
                 nazwa VARCHAR NOT NULL,
                 CONSTRAINT linia_pk PRIMARY KEY (id_linia)
 );
 
 
 CREATE TABLE train.stacja (
-                id_stacja INTEGER NOT NULL,
+                id_stacja SERIAL NOT NULL,
                 nazwa VARCHAR NOT NULL,
                 miejscowosc VARCHAR NOT NULL,
                 adres VARCHAR,
@@ -426,14 +16,14 @@ CREATE TABLE train.stacja (
 
 
 CREATE TABLE train.sklad (
-                id_sklad INTEGER NOT NULL,
+                id_sklad SERIAL NOT NULL,
                 czy_przypisany_do_kursu BOOLEAN DEFAULT false NOT NULL,
                 CONSTRAINT id_sklad PRIMARY KEY (id_sklad)
 );
 
 
 CREATE TABLE train.kurs_lini (
-                id_kurs INTEGER NOT NULL,
+                id_kurs SERIAL NOT NULL,
                 id_sklad INTEGER,
                 id_linia INTEGER NOT NULL,
                 CONSTRAINT kurs_lini_pk PRIMARY KEY (id_kurs)
@@ -441,7 +31,7 @@ CREATE TABLE train.kurs_lini (
 
 
 CREATE TABLE train.przystanek (
-                id_przystanek INTEGER NOT NULL,
+                id_przystanek SERIAL NOT NULL,
                 id_kurs INTEGER NOT NULL,
                 id_stacja INTEGER NOT NULL,
                 data_przyjazdu DATE NOT NULL,
@@ -454,7 +44,7 @@ CREATE TABLE train.przystanek (
 
 
 CREATE TABLE train.typ_lokomotywa (
-                id_lokomotywa INTEGER NOT NULL,
+                id_lokomotywa SERIAL NOT NULL,
                 nazwa VARCHAR NOT NULL,
                 moc INTEGER NOT NULL,
                 max_pre INTEGER NOT NULL,
@@ -464,15 +54,15 @@ CREATE TABLE train.typ_lokomotywa (
 
 
 CREATE TABLE train.lokomotywa (
-                id VARCHAR NOT NULL,
-                id_lokomotywa INTEGER NOT NULL,
-                id_sklad INTEGER,
+                id SERIAL NOT NULL,
+                id_lokomotywa SERIAL NOT NULL,
+                id_sklad SERIAL,
                 CONSTRAINT lokomotywa_pk PRIMARY KEY (id)
 );
 
-CREATE TYPE typ AS ENUM ('EZT', 'wagon', 'autobus');
+CREATE TYPE typ AS ENUM ('EZT', 'wagon', 'autobus', 'lokomotywa');
 CREATE TABLE train.typ_pojazdu_osobowego (
-                id_typ_po INTEGER NOT NULL,
+                id_typ_po SERIAL NOT NULL,
                 nazwa_wagonu VARCHAR NOT NULL,
                 czy_restauracyjny BOOLEAN NOT NULL,
                 czy_wc BOOLEAN NOT NULL,
@@ -483,25 +73,25 @@ CREATE TABLE train.typ_pojazdu_osobowego (
 
 
 CREATE TABLE train.autobus_zapasowy (
-                id_autobus INTEGER NOT NULL,
-                id_sklad INTEGER NOT NULL,
-                id_typ_po INTEGER NOT NULL,
+                id_autobus SERIAL NOT NULL,
+                id_sklad SERIAL NOT NULL,
+                id_typ_po SERIAL NOT NULL,
                 CONSTRAINT id_autobus PRIMARY KEY (id_autobus)
 );
 
 
 CREATE TABLE train.wagon_zt (
-                id_wagon_zt INTEGER NOT NULL,
-                id_sklad INTEGER,
-                id_typ_po INTEGER NOT NULL,
+                id_wagon_zt SERIAL NOT NULL,
+                id_sklad SERIAL,
+                id_typ_po SERIAL NOT NULL,
                 CONSTRAINT id_wagon_zt PRIMARY KEY (id_wagon_zt)
 );
 
 
 CREATE TABLE train.wagon (
-                id_wagon INTEGER NOT NULL,
-                id_sklad INTEGER,
-                id_typ_po INTEGER NOT NULL,
+                id_wagon SERIAL NOT NULL,
+                id_sklad SERIAL,
+                id_typ_po SERIAL NOT NULL,
                 CONSTRAINT id_wagon PRIMARY KEY (id_wagon)
 );
 
@@ -590,18 +180,6 @@ ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
---stwórz funkcję której argumentem będzie id-primary key a będzie zwracac masę pojazdu
-CREATE OR REPLACE FUNCTION train.masa_pojazdu(id_pojazd INTEGER)
-RETURNS DOUBLE PRECISION AS $$
-DECLARE
-    masa DOUBLE PRECISION;
-BEGIN
-    SELECT SUM(waga) INTO masa FROM train.typ_pojazdu_osobowego WHERE id_typ_po IN (SELECT id_typ_po FROM train.wagon WHERE id_sklad IN (SELECT id_sklad FROM train.sklad WHERE id_pojazd = id_pojazd));
-    RETURN masa;
-END;
-$$ LANGUAGE plpgsql;
-
-
 --stwórz funkcję która zwróci wagę wagonu
 CREATE OR REPLACE FUNCTION train.waga_wagonu(id_wagon INTEGER)
     RETURNS DOUBLE PRECISION AS
@@ -639,7 +217,6 @@ RETURN QUERY SELECT sk.id_sklad, czy_przypisany_do_kursu FROM train.sklad sk WHE
 END;
 $$ LANGUAGE plpgsql;
 
-
 -- stwórz funkcję która zwróci kursy których nie ma przypisanego składu
 CREATE OR REPLACE FUNCTION train.kursy_bez_skladu()
     RETURNS TABLE(id_kurs INTEGER, id_sklad INTEGER, id_linia INTEGER) AS
@@ -658,6 +235,129 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+--stwórz widok który zwróci wszystkie lokomotywy wraz z ich nazwą, mocą, maks_prędkością i maks_uciągiem posortowane po nazwie
+CREATE OR REPLACE VIEW train.lokomotywa_dane AS
+SELECT l.id_lokomotywa_pk AS numer_egzemplarza,
+       tl.nazwa AS nazwa_lokomotywy,
+       tl.moc AS moc_lokomotywy,
+       tl.max_pre AS maksymalna_predkosc,
+       tl.max_uciag AS maksymalny_uciag FROM train.lokomotywa l
+        JOIN train.typ_lokomotywa tl ON l.id_lokomotywa = tl.id_lokomotywa ORDER BY tl.nazwa;
+
+-- 
+CREATE OR REPLACE FUNCTION train.pojazdy_kursu_detailed(id_kurs_param INTEGER)
+    RETURNS TABLE(liczba_porzadkowa BIGINT, nazwa varchar, czy_restauracyjny BOOLEAN, czy_wc BOOLEAN, ilosc_miejsc INTEGER) AS
+$$
+BEGIN
+    RETURN QUERY
+        SELECT row_number() OVER (), tl.nazwa, NULL, NULL, NULL
+        FROM train.sklad s
+                 JOIN train.lokomotywa l ON s.id_sklad = l.id_sklad
+                 JOIN train.typ_lokomotywa tl ON l.id_lokomotywa = tl.id_lokomotywa
+                 JOIN train.kurs_lini kl ON s.id_sklad = kl.id_sklad
+        WHERE kl.id_kurs = id_kurs_param
+        UNION ALL
+        SELECT row_number() OVER (), tp.nazwa_wagonu, tp.czy_restauracyjny, tp.czy_wc, tp.ilosc_miejsc
+        FROM train.sklad s
+                 JOIN train.wagon w ON s.id_sklad = w.id_sklad
+                 JOIN train.typ_pojazdu_osobowego tp ON w.id_typ_po = tp.id_typ_po
+                 JOIN train.kurs_lini kl ON s.id_sklad = kl.id_sklad
+        WHERE kl.id_kurs = id_kurs_param
+        UNION ALL
+        SELECT row_number() OVER (), tp.nazwa_wagonu, tp.czy_restauracyjny, tp.czy_wc, tp.ilosc_miejsc
+        FROM train.sklad s
+                 JOIN train.wagon_zt wz ON s.id_sklad = wz.id_sklad
+                 JOIN train.typ_pojazdu_osobowego tp ON wz.id_typ_po = tp.id_typ_po
+                 JOIN train.kurs_lini kl ON s.id_sklad = kl.id_sklad
+        WHERE kl.id_kurs = id_kurs_param
+        UNION ALL
+        SELECT row_number() OVER (), tp.nazwa_wagonu, tp.czy_restauracyjny, tp.czy_wc, tp.ilosc_miejsc
+        FROM train.sklad s
+                 JOIN train.autobus_zapasowy az ON s.id_sklad = az.id_sklad
+                 JOIN train.typ_pojazdu_osobowego tp ON az.id_typ_po = tp.id_typ_po
+                 JOIN train.kurs_lini kl ON s.id_sklad = kl.id_sklad
+        WHERE kl.id_kurs = id_kurs_param;
+END;
+$$ LANGUAGE plpgsql;
+
+-- stwórz funkcję jak wyżej, ale argumentem będzie id_sklad
+CREATE OR REPLACE FUNCTION train.pojazdy_skladu_detailed(id_sklad_param INTEGER)
+    RETURNS TABLE(liczba_porzadkowa BIGINT, nazwa varchar, typ_pojazdu varchar, czy_restauracyjny BOOLEAN, czy_wc BOOLEAN, ilosc_miejsc INTEGER) AS
+$$
+BEGIN
+    RETURN QUERY
+        SELECT row_number() OVER (), tl.nazwa, "lokomotywa", NULL, NULL, NULL
+        FROM train.sklad s
+                 JOIN train.lokomotywa l ON s.id_sklad = l.id_sklad
+                 JOIN train.typ_lokomotywa tl ON l.id_lokomotywa = tl.id_lokomotywa
+        WHERE s.id_sklad = id_sklad_param
+        UNION ALL
+        SELECT row_number() OVER (), tp.nazwa_wagonu, tp.typpojazdu, tp.czy_restauracyjny, tp.czy_wc, tp.ilosc_miejsc
+        FROM train.sklad s
+                 JOIN train.wagon w ON s.id_sklad = w.id_sklad
+                 JOIN train.typ_pojazdu_osobowego tp ON w.id_typ_po = tp.id_typ_po
+        WHERE s.id_sklad = id_sklad_param
+        UNION ALL
+        SELECT row_number() OVER (), tp.nazwa_wagonu, tp.typpojazdu, tp.czy_restauracyjny, tp.czy_wc, tp.ilosc_miejsc
+        FROM train.sklad s
+                 JOIN train.wagon_zt wz ON s.id_sklad = wz.id_sklad
+                 JOIN train.typ_pojazdu_osobowego tp ON wz.id_typ_po = tp.id_typ_po
+        WHERE s.id_sklad = id_sklad_param
+        UNION ALL
+        SELECT row_number() OVER (), tp.nazwa_wagonu, tp.typpojazdu, tp.czy_restauracyjny, tp.czy_wc, tp.ilosc_miejsc
+        FROM train.sklad s
+                 JOIN train.autobus_zapasowy az ON s.id_sklad = az.id_sklad
+                 JOIN train.typ_pojazdu_osobowego tp ON az.id_typ_po = tp.id_typ_po
+        WHERE s.id_sklad = id_sklad_param;
+END;
+$$ LANGUAGE plpgsql;
 
 
+--create view that returns typ_lokomotywa.id_lokomotywa, typ_lokomotywanazwa grouped by nazwa and amounts of each lokomotywa.id_lokomotwa_pk
+CREATE OR REPLACE VIEW train.lokomotywa_ilosc AS
+SELECT tl.id_lokomotywa AS id_typu_lokomotywy, tl.nazwa AS nazwa_lokomotywy, COUNT(l.id_lokomotywa_pk) AS ilosc_egzemplarzy FROM train.lokomotywa l
+    JOIN train.typ_lokomotywa tl ON l.id_lokomotywa = tl.id_lokomotywa GROUP BY tl.id_lokomotywa, tl.nazwa;
 
+-- the same as above but for wagons
+CREATE OR REPLACE VIEW train.wagon_ilosc AS
+SELECT tp.id_typ_po AS id_typu_wagonu, tp.nazwa_wagonu AS nazwa_wagonu, COUNT(w.id_wagon) AS ilosc_egzemplarzy FROM train.wagon w
+    JOIN train.typ_pojazdu_osobowego tp ON w.id_typ_po = tp.id_typ_po GROUP BY tp.id_typ_po, tp.nazwa_wagonu;
+
+-- the same as above but for wagons_zt
+CREATE OR REPLACE VIEW train.wagon_zt_ilosc AS
+SELECT tp.id_typ_po AS id_typu_wagonu, tp.nazwa_wagonu AS nazwa_wagonu, COUNT(wz.id_wagon_zt) AS ilosc_egzemplarzy FROM train.wagon_zt wz
+    JOIN train.typ_pojazdu_osobowego tp ON wz.id_typ_po = tp.id_typ_po GROUP BY tp.id_typ_po, tp.nazwa_wagonu;
+
+-- the same as above but for autobus_zapasowy
+CREATE OR REPLACE VIEW train.autobus_zapasowy_ilosc AS
+SELECT tp.id_typ_po AS id_typu_wagonu, tp.nazwa_wagonu AS nazwa_wagonu, COUNT(az.id_autobus) AS ilosc_egzemplarzy FROM train.autobus_zapasowy az
+    JOIN train.typ_pojazdu_osobowego tp ON az.id_typ_po = tp.id_typ_po GROUP BY tp.id_typ_po, tp.nazwa_wagonu;
+
+-- function that returns all przystanki for given kurs with nazwa_stacji, data_przyjazdu, data_odjazdu, godz_przyjazdu, godz_odjazdu, nr_kolejnosci order by nr_kolejnosci
+CREATE OR REPLACE FUNCTION train.przystanki_kursu(id_kurs_param INTEGER)
+    RETURNS TABLE(nazwa_stacji VARCHAR, data_przyjazdu DATE, data_odjazdu DATE, godz_przyjazdu TIME, godz_odjazdu TIME, nr_kolejnosci INTEGER) AS
+$$
+BEGIN
+    RETURN QUERY SELECT s.nazwa, s.data_przyjazdu, s.data_odjazdu, s.godz_przyjazdu, s.godz_odjazdu, s.nr_kolejnosci
+    FROM train.przystanek s
+    JOIN train.kurs_lini kl ON s.id_kurs = kl.id_kurs
+    WHERE kl.id_kurs = id_kurs_param
+    ORDER BY s.nr_kolejnosci;
+END;
+$$ LANGUAGE plpgsql;
+
+-- create trigger that will update sklad.czy_przypisany_do_kursu to true when kurs_lini.id_sklad is not null
+CREATE OR REPLACE FUNCTION train.update_sklad_czy_przypisany_do_kursu()
+    RETURNS TRIGGER AS
+$$
+BEGIN
+    UPDATE train.sklad SET czy_przypisany_do_kursu = true WHERE id_sklad = NEW.id_sklad;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER update_sklad_czy_przypisany_do_kursu
+    AFTER UPDATE ON train.kurs_lini
+    FOR EACH ROW
+EXECUTE PROCEDURE train.update_sklad_czy_przypisany_do_kursu();

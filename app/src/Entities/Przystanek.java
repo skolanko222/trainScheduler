@@ -16,6 +16,7 @@ public class Przystanek extends Entity{
     private int id_stacja;
     private int nr_kolejnosc;
     private Integer id_kursu;
+    private String nazwa = null;
 
 
 
@@ -72,12 +73,13 @@ public class Przystanek extends Entity{
 
     public String getNazwa(PostgresSQLConnection connection) {
         String query = "SELECT nazwa FROM " + schema + "stacja WHERE id_stacja = " + id_stacja;
-
+        if(nazwa != null)
+            return nazwa;
         try {
             ResultSet rs = connection.executeCommand(query);
             rs.next();
-            return rs.getString(1);
-
+            nazwa = rs.getString(1);
+            return nazwa;
         }
         catch (Exception e){
             JOptionPane.showMessageDialog(null, e.getMessage());

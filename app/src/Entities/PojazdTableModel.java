@@ -10,13 +10,13 @@ public class PojazdTableModel extends DefaultTableModel {
     private ArrayList<Entity> pojazdy = new ArrayList<>();
     private PostgresSQLConnection connection;
 
-    int wagaCalkowita = 0;
+    private int wagaCalkowita = 0;
 
     public ArrayList<Entity> getPojazdy() {
         return pojazdy;
     }
 
-    int maxUciag = 0;
+    private int maxUciag = 0;
     public PojazdTableModel(PostgresSQLConnection connection){
         super();
         this.connection = connection;
@@ -24,7 +24,8 @@ public class PojazdTableModel extends DefaultTableModel {
 
     public void addEntity(Entity entity){
         pojazdy.add(entity);
-        if(entity instanceof Lokomotywa){
+
+        if(entity instanceof Lokomotywa lok){
             wagaCalkowita += ((Lokomotywa) entity).getWaga(connection);
             maxUciag += ((Lokomotywa) entity).getMaxUciag(connection);
         }
@@ -33,6 +34,7 @@ public class PojazdTableModel extends DefaultTableModel {
         }
         else if(entity instanceof wagonEZT){
             wagaCalkowita += ((wagonEZT) entity).getMasa(connection);
+            maxUciag += ((wagonEZT) entity).getMasa(connection);
         }
         else if(entity instanceof AutobusZapasowy){
             wagaCalkowita += ((AutobusZapasowy) entity).getMasa(connection);
@@ -42,8 +44,22 @@ public class PojazdTableModel extends DefaultTableModel {
 
     public boolean checkIfAddedAlready(Entity entity){
         for(Entity e : pojazdy){
-            if(Objects.equals(e.getId(), entity.getId()))
-                return true;
+            if(e instanceof Lokomotywa lok && entity instanceof Lokomotywa lok2) {
+                if (Objects.equals(lok.getId(), lok2.getId()))
+                    return true;
+            }
+            else if(e instanceof Wagon wagon && entity instanceof Wagon wagon2){
+                if(Objects.equals(wagon.getId(), wagon2.getId()))
+                    return true;
+            }
+            else if(e instanceof wagonEZT wagon && entity instanceof wagonEZT wagon2){
+                if(Objects.equals(wagon.getId(), wagon2.getId()))
+                    return true;
+            }
+            else if(e instanceof AutobusZapasowy autobus && entity instanceof AutobusZapasowy autobus2){
+                if(Objects.equals(autobus.getId(), autobus2.getId()))
+                    return true;
+            }
         }
         return false;
     }
@@ -103,5 +119,40 @@ public class PojazdTableModel extends DefaultTableModel {
         }
         else
             return null;
+    }
+
+    @Override
+    public void removeRow(int row) {
+        if(pojazdy.get(row) instanceof Lokomotywa lok){
+            wagaCalkowita -= lok.getWaga(connection);
+            maxUciag -= lok.getMaxUciag(connection);
+        }
+        else if(pojazdy.get(row) instanceof Wagon wagon){
+            wagaCalkowita -= wagon.getMasa(connection);
+        }
+        else if(pojazdy.get(row) instanceof wagonEZT wagon){
+            wagaCalkowita -= wagon.getMasa(connection);
+        }
+        else if(pojazdy.get(row) instanceof AutobusZapasowy autobus){
+            wagaCalkowita -= autobus.getMasa(connection);
+        }
+        pojazdy.remove(row);
+        fireTableDataChanged();
+    }
+
+    public int getWagaCalkowita() {
+        return wagaCalkowita;
+    }
+
+    public void setWagaCalkowita(int wagaCalkowita) {
+        this.wagaCalkowita = wagaCalkowita;
+    }
+
+    public int getMaxUciag() {
+        return maxUciag;
+    }
+
+    public void setMaxUciag(int maxUciag) {
+        this.maxUciag = maxUciag;
     }
 }
